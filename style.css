@@ -31,6 +31,7 @@ body {
   height: 100px;
   background-color: #fff;
   border-radius: 5px;
+  cursor: pointer;
 }
 
 .cell:hover:not(.winning-cell) {
