@@ -1,15 +1,4 @@
 let area = document.querySelector(".area");
-let cell = document.getElementsByClassName("cell");
-let button = document.getElementById("restart");
-
-button.addEventListener("click", () => {
-  for (let i = 0; i < cell.length; i++) {
-    cell[i].textContent = "";
-    document.querySelector(".results").innerHTML = "";
-    enableClicks();
-    removeWinningCellClass();
-  }
-});
 
 for (let i = 1; i <= 9; i++) {
   let newCell = document.createElement("div");
@@ -18,14 +7,30 @@ for (let i = 1; i <= 9; i++) {
   area.appendChild(newCell);
 }
 
+let cell = document.getElementsByClassName("cell");
+let restartButton = document.getElementById("restart");
+
+restartButton.addEventListener("click", () => {
+  for (let i = 0; i < cell.length; i++) {
+    cell[i].textContent = "";
+    document.querySelector(".results").innerHTML = "";
+    enableClicks();
+    removeWinningCellClass();
+  }
+});
+
 let player = "X";
 
 function enableClicks() {
-  area.addEventListener("click", handleCellClick, false);
+  Array.from(cell).forEach((actualCell) => {
+    actualCell.addEventListener("click", handleCellClick, false);
+  });
 }
 
 function disableClicks() {
-  area.removeEventListener("click", handleCellClick, false);
+  Array.from(cell).forEach((actualCell) => {
+    actualCell.removeEventListener("click", handleCellClick, false);
+  });
 }
 
 function handleCellClick(event) {
