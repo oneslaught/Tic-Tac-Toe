@@ -90,7 +90,7 @@ body {
 
 .button-container {
   grid-row-start: 4;
-  grid-column: 1 / span 3;
+  grid-column: 1/span 3;
   display: flex;
   justify-content: center;
 }
@@ -152,4 +152,4 @@ body {
   color: #fff;
   font-family: "montserrat", sans-serif;
   font-size: 50px;
-} /*# sourceMappingURL=style.css.map */
+}/*# sourceMappingURL=style.css.map */
