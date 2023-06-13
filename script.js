@@ -53,7 +53,7 @@ function handleCellClick(event) {
     } else {
       player = "X";
       document.querySelector(".bg").style.left = "";
-      document.querySelector(".bg").style.backgroundColor = "#f2b147";
+      document.querySelector(".bg").style.backgroundColor = "#3cc4bf";
     }
 
     let currentPlayer = player === "X" ? "O" : "X";
