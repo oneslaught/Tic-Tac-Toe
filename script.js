@@ -60,7 +60,7 @@ function handleCellClick(event) {
 
     if (checkWin(data)) {
       statistics[currentPlayer] += 1;
-      document.querySelector(".results").innerHTML = `${currentPlayer} won!`;
+      document.querySelector(".results").innerHTML = `${currentPlayer} won!`
       disableClicks();
       updateStatistics();
     } else if (checkDraw()) {
