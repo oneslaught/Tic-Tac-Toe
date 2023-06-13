@@ -52,7 +52,6 @@ body {
 
 .winning-cell {
   color: #fff;
-  background-color: #a3a2a2;
 }
 
 #restart {
@@ -187,7 +186,8 @@ body {
 }
 
 .x-score {
-  background-color: #3cc4bf;
+  background-color: #019afe;
+  color: #fff;
 }
 
 .draw-score {
@@ -195,7 +195,8 @@ body {
 }
 
 .o-score {
-  background-color: #f2b147;
+  background-color: #fe019a;
+  color: #fff;
 }
 
 .score p {
@@ -205,5 +206,5 @@ body {
 }
 
 .score span {
-  font-size: 18px;
+  font-size: 20px;
 }

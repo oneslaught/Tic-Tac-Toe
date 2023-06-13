@@ -49,23 +49,25 @@ function handleCellClick(event) {
     if (player === "X") {
       player = "O";
       document.querySelector(".bg").style.left = "85px";
-      document.querySelector(".bg").style.backgroundColor = "#f2b147";
+      document.querySelector(".bg").style.backgroundColor = "#fe019a";
     } else {
       player = "X";
       document.querySelector(".bg").style.left = "";
-      document.querySelector(".bg").style.backgroundColor = "#3cc4bf";
+      document.querySelector(".bg").style.backgroundColor = "#019afe";
     }
 
     let currentPlayer = player === "X" ? "O" : "X";
 
     if (checkWin(data)) {
       statistics[currentPlayer] += 1;
-      document.querySelector(".results").innerHTML = `${currentPlayer} won!`
+      document.querySelector(".results").innerHTML = `${currentPlayer} won!`;
+      document.querySelector(".results").style.color = currentPlayer === "X" ? "#019afe" : "#fe019a";
       disableClicks();
       updateStatistics();
     } else if (checkDraw()) {
       statistics.D += 1;
       document.querySelector(".results").innerHTML = "Draw!";
+      document.querySelector(".results").style.color = "lightgrey"
       updateStatistics();
     }
   }
@@ -119,9 +121,9 @@ function highlightWinningCells(winningCells) {
       cell[i].classList.add("winning-cell");
       // currentPlayer?
       if (player === "O") {
-        cell[i].style.backgroundColor = "#3cc4bf";
+        cell[i].style.backgroundColor = "#019afe";
       } else {
-        cell[i].style.backgroundColor = "#f2b147";
+        cell[i].style.backgroundColor = "#fe019a";
       }
     }
   }
