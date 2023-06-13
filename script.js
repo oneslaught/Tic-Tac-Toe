@@ -130,7 +130,7 @@ function highlightWinningCells(winningCells) {
 function removeWinningCellClass() {
   for (let i = 0; i < cell.length; i++) {
     cell[i].classList.remove("winning-cell");
-    cell[i].style.backgroundColor = ""; // Сброс цвета фона
+    cell[i].style.backgroundColor = "";
   }
 }
 
