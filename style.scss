@@ -11,6 +11,7 @@ body {
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
+  font-family: "Jost", sans-serif;
 }
 
 .container {
@@ -35,7 +36,6 @@ body {
   grid-template-columns: repeat(3, auto);
   gap: 10px;
   font-size: 70px;
-  font-family: "Jost", sans-serif;
 }
 
 .cell {
@@ -114,7 +114,6 @@ body {
   grid-template-rows: 1fr 1fr;
   margin-top: 30px;
   color: #fff;
-  font-family: "Jost", sans-serif;
 }
 
 .turn-container h3 {
@@ -147,7 +146,7 @@ body {
 }
 
 .results-container {
-  min-height: 141px;
+  min-height: 58px;
   display: flex;
   justify-content: center;
 }
@@ -156,4 +155,55 @@ body {
   color: #fff;
   font-family: "montserrat", sans-serif;
   font-size: 50px;
+}
+
+.score-container {
+  height: 80px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.score-container ul {
+  display: flex;
+  padding: 0 20px 0 20px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 400px;
+}
+
+.score-container ul li {
+  width: 100px;
+  height: 60px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+  
+}
+
+.x-score {
+  background-color: #3cc4bf;
+}
+
+.draw-score {
+  background-color: lightgrey;
+}
+
+.o-score {
+  background-color: #f2b147;
+}
+
+.score p {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 0;
+}
+
+.score span {
+  font-size: 18px;
 }

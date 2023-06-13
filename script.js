@@ -49,18 +49,24 @@ function handleCellClick(event) {
     if (player === "X") {
       player = "O";
       document.querySelector(".bg").style.left = "85px";
+      document.querySelector(".bg").style.backgroundColor = "#f2b147";
     } else {
       player = "X";
       document.querySelector(".bg").style.left = "";
+      document.querySelector(".bg").style.backgroundColor = "#f2b147";
     }
 
     let currentPlayer = player === "X" ? "O" : "X";
 
     if (checkWin(data)) {
+      statistics[currentPlayer] += 1;
       document.querySelector(".results").innerHTML = `${currentPlayer} won!`;
       disableClicks();
+      updateStatistics();
     } else if (checkDraw()) {
+      statistics.D += 1;
       document.querySelector(".results").innerHTML = "Draw!";
+      updateStatistics();
     }
   }
 }
@@ -111,6 +117,12 @@ function highlightWinningCells(winningCells) {
     let cellPosition = parseInt(cell[i].getAttribute("data-position"));
     if (winningCells.includes(cellPosition)) {
       cell[i].classList.add("winning-cell");
+      // currentPlayer?
+      if (player === "O") {
+        cell[i].style.backgroundColor = "#3cc4bf";
+      } else {
+        cell[i].style.backgroundColor = "#f2b147";
+      }
     }
   }
 }
@@ -118,7 +130,20 @@ function highlightWinningCells(winningCells) {
 function removeWinningCellClass() {
   for (let i = 0; i < cell.length; i++) {
     cell[i].classList.remove("winning-cell");
+    cell[i].style.backgroundColor = ""; // Сброс цвета фона
   }
 }
 
 enableClicks();
+
+let statistics = {
+  X: 0,
+  D: 0,
+  O: 0,
+};
+
+function updateStatistics() {
+  document.getElementById("x-score").innerHTML = statistics.X;
+  document.getElementById("draw-score").innerHTML = statistics.D;
+  document.getElementById("o-score").innerHTML = statistics.O;
+}
