@@ -54,7 +54,7 @@ body {
   color: #fff;
 }
 
-#restart {
+#play-again {
   color: #fff;
   margin: 10px;
   padding: 12px 20px;
@@ -66,13 +66,20 @@ body {
   cursor: pointer;
   transition: color 0, 4 linear;
   position: relative;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.7s;
 }
 
-#restart:hover {
+#play-again.show {
+  opacity: 1;
+}
+
+#play-again:hover {
   color: #fff;
 }
 
-#restart::before {
+#play-again::before {
   content: "";
   position: absolute;
   left: 0;
@@ -87,7 +94,7 @@ body {
   transition-timing-function: cubic-bezier(0.5, 1.6, 0.4, 0.7);
 }
 
-#restart:hover::before {
+#play-again:hover::before {
   transform: scaleX(1);
 }
 
@@ -185,6 +192,14 @@ body {
   
 }
 
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px) rotate(-5deg); }
+  50% { transform: translateX(5px) rotate(5deg); }
+  75% { transform: translateX(-5px) rotate(-5deg); }
+  100% { transform: translateX(0); }
+}
+
 .x-score {
   background-color: #019afe;
   color: #fff;
@@ -197,6 +212,10 @@ body {
 .o-score {
   background-color: #fe019a;
   color: #fff;
+}
+
+.shake {
+  animation: shake 0.7s 1;
 }
 
 .score p {

@@ -8,12 +8,17 @@ for (let i = 1; i <= 9; i++) {
 }
 
 let cell = document.getElementsByClassName("cell");
-let restartButton = document.getElementById("restart");
+let playAgainButton = document.getElementById("play-again");
 
-restartButton.addEventListener("click", () => {
+playAgainButton.addEventListener("click", () => {
   for (let i = 0; i < cell.length; i++) {
     cell[i].textContent = "";
     document.querySelector(".results").innerHTML = "";
+    playAgainButton.classList.remove("show");
+    playAgainButton.style.visibility = "hidden";
+    ["x-score", "o-score", "draw-score"].forEach((scoreClass) => {
+      document.querySelector(`.${scoreClass}`).classList.remove("shake");
+    });
     enableClicks();
     removeWinningCellClass();
   }
@@ -61,14 +66,26 @@ function handleCellClick(event) {
     if (checkWin(data)) {
       statistics[currentPlayer] += 1;
       document.querySelector(".results").innerHTML = `${currentPlayer} won!`;
-      document.querySelector(".results").style.color = currentPlayer === "X" ? "#019afe" : "#fe019a";
+      document.querySelector(".results").style.color =
+        currentPlayer === "X" ? "#019afe" : "#fe019a";
+      playAgainButton.classList.add("show");
+      playAgainButton.style.visibility = "visible";
+      if (currentPlayer === "X") {
+        document.querySelector(".x-score").classList.add("shake");
+      } else if (currentPlayer === "O") {
+        document.querySelector(".o-score").classList.add("shake");
+      }
       disableClicks();
       updateStatistics();
     } else if (checkDraw()) {
       statistics.D += 1;
       document.querySelector(".results").innerHTML = "Draw!";
-      document.querySelector(".results").style.color = "lightgrey"
+      document.querySelector(".results").style.color = "lightgrey";
+      playAgainButton.classList.add("show");
+      playAgainButton.style.visibility = "visible";
       updateStatistics();
+
+      document.querySelector(".draw-score").classList.add("shake");
     }
   }
 }
