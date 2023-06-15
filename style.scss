@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Jost&display=swap");
+@import url(./text-animation.css);
 
 $cell-size: 100px;
 $grey-color: #6b6a6a;
@@ -158,7 +159,6 @@ body {
 }
 
 .results {
-  color: #fff;
   font-family: "montserrat", sans-serif;
   font-size: 50px;
 }
@@ -206,7 +206,7 @@ body {
 }
 
 .draw-score {
-  background-color: lightgrey;
+  background-color: #d3d3d3;
 }
 
 .o-score {

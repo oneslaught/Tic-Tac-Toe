@@ -65,22 +65,27 @@ function handleCellClick(event) {
 
     if (checkWin(data)) {
       statistics[currentPlayer] += 1;
-      document.querySelector(".results").innerHTML = `${currentPlayer} won!`;
-      document.querySelector(".results").style.color =
-        currentPlayer === "X" ? "#019afe" : "#fe019a";
+
       playAgainButton.classList.add("show");
       playAgainButton.style.visibility = "visible";
       if (currentPlayer === "X") {
         document.querySelector(".x-score").classList.add("shake");
+        document.querySelector(".results").innerHTML = `<div class="signX">
+        <span class="fast-flickerX">${currentPlayer}  </span>w<span class="flickerX">o</span>n
+        </div>`;
       } else if (currentPlayer === "O") {
         document.querySelector(".o-score").classList.add("shake");
+        document.querySelector(".results").innerHTML = `<div class="sign">
+        <span class="fast-flicker">${currentPlayer}  </span>w<span class="flicker">o</span>n
+        </div>`;
       }
       disableClicks();
       updateStatistics();
     } else if (checkDraw()) {
       statistics.D += 1;
-      document.querySelector(".results").innerHTML = "Draw!";
-      document.querySelector(".results").style.color = "lightgrey";
+      document.querySelector(".results").innerHTML = `<div class="signD">
+      <span class="fast-flickerD">D</span>r<span class="flickerD">a</span>w
+      </div>`;
       playAgainButton.classList.add("show");
       playAgainButton.style.visibility = "visible";
       updateStatistics();
