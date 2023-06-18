@@ -1,11 +1,52 @@
 let area = document.querySelector(".area");
+let gridSize = 3;
+let cellWidth = "100px";
+let cellHeight = "100px";
 
-for (let i = 1; i <= 9; i++) {
-  let newCell = document.createElement("div");
-  newCell.className = "cell";
-  newCell.setAttribute("data-position", i);
-  area.appendChild(newCell);
+function createInitialGrid() {
+  for (let i = 1; i <= gridSize * gridSize; i++) {
+    let newCell = document.createElement("div");
+    newCell.className = "cell";
+    newCell.setAttribute("data-position", i);
+    newCell.style.width = cellWidth;
+    newCell.style.height = cellHeight;
+    area.appendChild(newCell);
+  }
+
+  enableClicks();
+
+  let areaElement = document.querySelector(".area");
+  areaElement.style.gridTemplateColumns = `repeat(${gridSize}, auto)`;
 }
+
+function handleModeClick(event) {
+  let modeElement = event.target;
+  if (modeElement.classList.contains("change-mode")) {
+    let mode = modeElement.classList[1];
+    if (mode === "threeByThree") {
+      gridSize = 3;
+      cellWidth = "100px";
+      cellHeight = "100px";
+    } else if (mode === "fourByFour") {
+      gridSize = 4;
+      cellWidth = "90px";
+      cellHeight = "90px";
+    } else if (mode === "fiveByFive") {
+      gridSize = 5;
+      cellWidth = "80px";
+      cellHeight = "80px";
+    }
+
+    area.innerHTML = "";
+    createInitialGrid();
+  }
+}
+
+let modeElements = document.querySelectorAll(".change-mode");
+
+modeElements.forEach((modeElement) => {
+  modeElement.addEventListener("click", handleModeClick);
+});
 
 let cell = document.getElementsByClassName("cell");
 let playAgainButton = document.getElementById("play-again");
@@ -31,6 +72,8 @@ function enableClicks() {
     actualCell.addEventListener("click", handleCellClick, false);
   });
 }
+
+createInitialGrid();
 
 function disableClicks() {
   Array.from(cell).forEach((actualCell) => {
@@ -111,7 +154,6 @@ function checkWin(data) {
 }
 
 function getWinningPositions() {
-  let gridSize = 3;
   let winningPositions = [];
 
   for (let row = 0; row < gridSize; row++) {
