@@ -2,20 +2,24 @@ let area = document.querySelector(".area");
 let gridSize = 3;
 let cellWidth = "100px";
 let cellHeight = "100px";
+let fontSize = "70px";
 
 function createInitialGrid() {
+  let areaElement = document.querySelector(".area");
+
   for (let i = 1; i <= gridSize * gridSize; i++) {
     let newCell = document.createElement("div");
+
     newCell.className = "cell";
     newCell.setAttribute("data-position", i);
     newCell.style.width = cellWidth;
     newCell.style.height = cellHeight;
+    areaElement.style.fontSize = fontSize;
     area.appendChild(newCell);
   }
 
   enableClicks();
 
-  let areaElement = document.querySelector(".area");
   areaElement.style.gridTemplateColumns = `repeat(${gridSize}, auto)`;
 }
 
@@ -27,14 +31,17 @@ function handleModeClick(event) {
       gridSize = 3;
       cellWidth = "100px";
       cellHeight = "100px";
+      fontSize = "70px";
     } else if (mode === "fourByFour") {
       gridSize = 4;
       cellWidth = "90px";
       cellHeight = "90px";
+      fontSize = "70px";
     } else if (mode === "fiveByFive") {
       gridSize = 5;
       cellWidth = "80px";
       cellHeight = "80px";
+      fontSize = "60px";
     }
 
     area.innerHTML = "";
