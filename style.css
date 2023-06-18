@@ -43,6 +43,19 @@ body {
   cursor: pointer;
 }
 
+@media only screen and (max-width: 480px) {
+  .cell {
+    width: 80px;
+    height: 80px;
+  }
+  .area {
+    font-size: 50px;
+    margin-top: 16px;
+  }
+  .mode-container {
+    margin-top: 10px;
+  }
+}
 .cell:hover:not(.winning-cell) {
   background-color: rgb(228, 226, 226);
 }

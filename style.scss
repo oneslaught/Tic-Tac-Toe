@@ -47,6 +47,22 @@ body {
   cursor: pointer;
 }
 
+@media only screen and (max-width: 480px) {
+  .cell {
+    width: 80px;
+    height: 80px;
+  }
+
+  .area {
+    font-size: 50px;
+    margin-top: 16px;
+  }
+
+  .mode-container {
+    margin-top: 10px;
+  }
+}
+
 .cell:hover:not(.winning-cell) {
   background-color: rgb(228, 226, 226);
 }
@@ -225,15 +241,24 @@ body {
   justify-content: center;
   box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
     rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-  
 }
 
 @keyframes shake {
-  0% { transform: translateX(0); }
-  25% { transform: translateX(-5px) rotate(-5deg); }
-  50% { transform: translateX(5px) rotate(5deg); }
-  75% { transform: translateX(-5px) rotate(-5deg); }
-  100% { transform: translateX(0); }
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px) rotate(-5deg);
+  }
+  50% {
+    transform: translateX(5px) rotate(5deg);
+  }
+  75% {
+    transform: translateX(-5px) rotate(-5deg);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 
 .x-score {
