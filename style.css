@@ -51,6 +51,44 @@ body {
   color: #fff;
 }
 
+.mode-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.change-mode {
+  position: relative;
+  display: inline-block;
+  padding: 8px 16px;
+  margin: 2px 10px;
+  color: #c7c7c7;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-decoration: none;
+  font-size: 20px;
+  overflow: hidden;
+  transition: 0.2s;
+}
+
+.change-mode:hover.threeByThree {
+  color: #028060;
+  background-color: #00f0b4;
+  box-shadow: 0 0 10px #00f0b4, 0 0 40px #00f0b4, 0 0 80px #00f0b4;
+}
+
+.change-mode:hover.fourByFour {
+  color: #52009e;
+  background-color: #ad59fc;
+  box-shadow: 0 0 10px #a443ff, 0 0 40px #a443ff, 0 0 80px #a443ff;
+}
+
+.change-mode:hover.fiveByFive {
+  color: #813e00;
+  background-color: #f77700;
+  box-shadow: 0 0 10px #f77700, 0 0 40px #f77700, 0 0 80px #f77700;
+}
+
 #play-again {
   color: #fff;
   margin: 10px;
@@ -96,8 +134,6 @@ body {
 }
 
 .button-container {
-  grid-row-start: 4;
-  grid-column: 1/span 3;
   display: flex;
   justify-content: center;
 }
