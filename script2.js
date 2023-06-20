@@ -2,7 +2,11 @@ let area = document.querySelector(".area");
 let gridSize = 3;
 let cellWidth = "100px";
 let cellHeight = "100px";
-let fontSize = "80px";
+if (document.documentElement.clientWidth <= 480) {
+  fontSize = "66px";
+} else {
+  fontSize = "80px";
+}
 let board = [];
 for (let i = 0; i < gridSize; i++) {
   board.push(Array(gridSize).fill(""));
@@ -36,19 +40,35 @@ function handleModeClick(event) {
     switch (mode) {
       case "threeByThree":
         gridSize = 3;
-        fontSize = "80px";
+        if (document.documentElement.clientWidth <= 480) {
+          fontSize = "66px";
+        } else {
+          fontSize = "80px";
+        }
         break;
       case "fourByFour":
         gridSize = 4;
-        fontSize = "60px";
+        if (document.documentElement.clientWidth <= 480) {
+          fontSize = "46px";
+        } else {
+          fontSize = "60px";
+        }
         break;
       case "fiveByFive":
         gridSize = 5;
-        fontSize = "48px";
+        if (document.documentElement.clientWidth <= 480) {
+          fontSize = "36px";
+        } else {
+          fontSize = "48px";
+        }
         break;
       default:
         gridSize = 3;
-        fontSize = "80px";
+        if (document.documentElement.clientWidth <= 480) {
+          fontSize = "30px";
+        } else {
+          fontSize = "80px";
+        }
         break;
     }
 
@@ -58,7 +78,6 @@ function handleModeClick(event) {
     createInitialGrid();
   }
 }
-
 
 let modeElements = document.querySelectorAll(".change-mode");
 
@@ -111,7 +130,7 @@ function handleCellClick(event) {
     let positionX = parseInt(clickedCell.getAttribute("data-positionX"));
     let positionY = parseInt(clickedCell.getAttribute("data-positionY"));
     board[positionX][positionY] = player;
-    console.log(board)
+    console.log(board);
 
     if (player === "X") {
       player = "O";
@@ -226,7 +245,7 @@ function checkWin() {
           highlightWinningCells([
             [i, j],
             [i, j + 1],
-            [i, j + 2]
+            [i, j + 2],
           ]);
           return true;
         }
@@ -243,7 +262,7 @@ function checkWin() {
           highlightWinningCells([
             [i, j],
             [i + 1, j],
-            [i + 2, j]
+            [i + 2, j],
           ]);
           return true;
         }
@@ -260,7 +279,7 @@ function checkWin() {
           highlightWinningCells([
             [i, j],
             [i + 1, j + 1],
-            [i + 2, j + 2]
+            [i + 2, j + 2],
           ]);
           return true;
         }
@@ -277,7 +296,7 @@ function checkWin() {
           highlightWinningCells([
             [i, j],
             [i + 1, j - 1],
-            [i + 2, j - 2]
+            [i + 2, j - 2],
           ]);
           return true;
         }
