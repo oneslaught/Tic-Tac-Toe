@@ -2,52 +2,63 @@ let area = document.querySelector(".area");
 let gridSize = 3;
 let cellWidth = "100px";
 let cellHeight = "100px";
-let fontSize = "70px";
+let fontSize = "80px";
+let board = [];
+for (let i = 0; i < gridSize; i++) {
+  board.push(Array(gridSize).fill(""));
+}
 
 function createInitialGrid() {
   let areaElement = document.querySelector(".area");
 
-  for (let i = 1; i <= gridSize * gridSize; i++) {
-    let newCell = document.createElement("div");
+  for (let i = 0; i < gridSize; i++) {
+    for (let j = 0; j < gridSize; j++) {
+      let newCell = document.createElement("div");
 
-    newCell.className = "cell";
-    newCell.setAttribute("data-position", i);
-    newCell.style.width = cellWidth;
-    newCell.style.height = cellHeight;
-    areaElement.style.fontSize = fontSize;
-    area.appendChild(newCell);
+      newCell.className = "cell";
+      newCell.setAttribute("data-positionX", i);
+      newCell.setAttribute("data-positionY", j);
+      areaElement.style.fontSize = fontSize;
+      area.appendChild(newCell);
+    }
   }
 
   enableClicks();
 
-  areaElement.style.gridTemplateColumns = `repeat(${gridSize}, auto)`;
+  areaElement.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
 }
 
 function handleModeClick(event) {
   let modeElement = event.target;
   if (modeElement.classList.contains("change-mode")) {
     let mode = modeElement.classList[1];
-    if (mode === "threeByThree") {
-      gridSize = 3;
-      cellWidth = "100px";
-      cellHeight = "100px";
-      fontSize = "70px";
-    } else if (mode === "fourByFour") {
-      gridSize = 4;
-      cellWidth = "90px";
-      cellHeight = "90px";
-      fontSize = "70px";
-    } else if (mode === "fiveByFive") {
-      gridSize = 5;
-      cellWidth = "80px";
-      cellHeight = "80px";
-      fontSize = "60px";
+
+    switch (mode) {
+      case "threeByThree":
+        gridSize = 3;
+        fontSize = "80px";
+        break;
+      case "fourByFour":
+        gridSize = 4;
+        fontSize = "60px";
+        break;
+      case "fiveByFive":
+        gridSize = 5;
+        fontSize = "48px";
+        break;
+      default:
+        gridSize = 3;
+        fontSize = "80px";
+        break;
     }
+
+    board = Array.from({ length: gridSize }, () => Array(gridSize).fill(""));
 
     area.innerHTML = "";
     createInitialGrid();
   }
 }
+
 
 let modeElements = document.querySelectorAll(".change-mode");
 
@@ -69,6 +80,10 @@ playAgainButton.addEventListener("click", () => {
     });
     enableClicks();
     removeWinningCellClass();
+    board = [];
+    for (let i = 0; i < gridSize; i++) {
+      board.push(Array(gridSize).fill(""));
+    }
   }
 });
 
@@ -93,13 +108,10 @@ function handleCellClick(event) {
   if (clickedCell.classList.contains("cell") && !clickedCell.innerHTML) {
     clickedCell.innerHTML = player;
 
-    let data = [];
-
-    for (var i in cell) {
-      if (cell[i].innerHTML == player) {
-        data.push(parseInt(cell[i].getAttribute("data-position")));
-      }
-    }
+    let positionX = parseInt(clickedCell.getAttribute("data-positionX"));
+    let positionY = parseInt(clickedCell.getAttribute("data-positionY"));
+    board[positionX][positionY] = player;
+    console.log(board)
 
     if (player === "X") {
       player = "O";
@@ -111,9 +123,8 @@ function handleCellClick(event) {
       document.querySelector(".bg").style.backgroundColor = "#019afe";
     }
 
-    let currentPlayer = player === "X" ? "O" : "X";
-
-    if (checkWin(data)) {
+    if (checkWin()) {
+      let currentPlayer = player === "X" ? "O" : "X";
       statistics[currentPlayer] += 1;
 
       playAgainButton.classList.add("show");
@@ -145,53 +156,136 @@ function handleCellClick(event) {
   }
 }
 
-function checkWin(data) {
-  let winningPositions = getWinningPositions();
+function checkWin() {
+  if (gridSize === 3) {
+    for (let i = 0; i < gridSize; i++) {
+      if (
+        board[i][0] !== "" &&
+        board[i][0] === board[i][1] &&
+        board[i][1] === board[i][2]
+      ) {
+        highlightWinningCells([
+          [i, 0],
+          [i, 1],
+          [i, 2],
+        ]);
+        return true;
+      }
+    }
 
-  for (let positions of winningPositions) {
-    let [pos1, pos2, pos3] = positions;
-    if (data.includes(pos1) && data.includes(pos2) && data.includes(pos3)) {
-      let winningCells = [pos1, pos2, pos3];
-      highlightWinningCells(winningCells);
+    for (let j = 0; j < gridSize; j++) {
+      if (
+        board[0][j] !== "" &&
+        board[0][j] === board[1][j] &&
+        board[1][j] === board[2][j]
+      ) {
+        highlightWinningCells([
+          [0, j],
+          [1, j],
+          [2, j],
+        ]);
+        return true;
+      }
+    }
+
+    if (
+      board[0][0] !== "" &&
+      board[0][0] === board[1][1] &&
+      board[1][1] === board[2][2]
+    ) {
+      highlightWinningCells([
+        [0, 0],
+        [1, 1],
+        [2, 2],
+      ]);
       return true;
+    }
+
+    if (
+      board[0][2] !== "" &&
+      board[0][2] === board[1][1] &&
+      board[1][1] === board[2][0]
+    ) {
+      highlightWinningCells([
+        [0, 2],
+        [1, 1],
+        [2, 0],
+      ]);
+      return true;
+    }
+
+    return false;
+  } else if (gridSize === 4) {
+    for (let i = 0; i < gridSize; i++) {
+      for (let j = 0; j < gridSize - 2; j++) {
+        if (
+          board[i][j] !== "" &&
+          board[i][j] === board[i][j + 1] &&
+          board[i][j + 1] === board[i][j + 2]
+        ) {
+          highlightWinningCells([
+            [i, j],
+            [i, j + 1],
+            [i, j + 2]
+          ]);
+          return true;
+        }
+      }
+    }
+
+    for (let i = 0; i < gridSize - 2; i++) {
+      for (let j = 0; j < gridSize; j++) {
+        if (
+          board[i][j] !== "" &&
+          board[i][j] === board[i + 1][j] &&
+          board[i + 1][j] === board[i + 2][j]
+        ) {
+          highlightWinningCells([
+            [i, j],
+            [i + 1, j],
+            [i + 2, j]
+          ]);
+          return true;
+        }
+      }
+    }
+
+    for (let i = 0; i < gridSize - 2; i++) {
+      for (let j = 0; j < gridSize - 2; j++) {
+        if (
+          board[i][j] !== "" &&
+          board[i][j] === board[i + 1][j + 1] &&
+          board[i + 1][j + 1] === board[i + 2][j + 2]
+        ) {
+          highlightWinningCells([
+            [i, j],
+            [i + 1, j + 1],
+            [i + 2, j + 2]
+          ]);
+          return true;
+        }
+      }
+    }
+
+    for (let i = 0; i < gridSize - 2; i++) {
+      for (let j = 2; j < gridSize; j++) {
+        if (
+          board[i][j] !== "" &&
+          board[i][j] === board[i + 1][j - 1] &&
+          board[i + 1][j - 1] === board[i + 2][j - 2]
+        ) {
+          highlightWinningCells([
+            [i, j],
+            [i + 1, j - 1],
+            [i + 2, j - 2]
+          ]);
+          return true;
+        }
+      }
     }
   }
 
   return false;
-}
-
-function getWinningPositions() {
-  let winningPositions = [];
-
-  for (let row = 0; row < gridSize; row++) {
-    let positions = [];
-    for (let col = 0; col < gridSize; col++) {
-      positions.push(row * gridSize + col + 1);
-    }
-    winningPositions.push(positions);
-  }
-
-  for (let col = 0; col < gridSize; col++) {
-    let positions = [];
-    for (let row = 0; row < gridSize; row++) {
-      positions.push(row * gridSize + col + 1);
-    }
-    winningPositions.push(positions);
-  }
-
-  let diagonal = [];
-  for (let i = 0; i < gridSize; i++) {
-    diagonal.push(i * gridSize + i + 1);
-  }
-  winningPositions.push(diagonal);
-
-  let diagonalReverse = [];
-  for (let i = 0; i < gridSize; i++) {
-    diagonalReverse.push((i + 1) * gridSize - i);
-  }
-  winningPositions.push(diagonalReverse);
-
-  return winningPositions;
 }
 
 function checkDraw() {
@@ -202,18 +296,16 @@ function checkDraw() {
   if (draw) return true;
 }
 
-function highlightWinningCells(winningCells) {
-  for (let i = 0; i < cell.length; i++) {
-    let cellPosition = parseInt(cell[i].getAttribute("data-position"));
-    if (winningCells.includes(cellPosition)) {
-      cell[i].classList.add("winning-cell");
-      // currentPlayer?
-      if (player === "O") {
-        cell[i].style.backgroundColor = "#019afe";
-      } else {
-        cell[i].style.backgroundColor = "#fe019a";
-      }
-    }
+function highlightWinningCells(cells) {
+  let currentPlayer = player === "X" ? "O" : "X";
+  let currentPlayerColor = currentPlayer === "X" ? "#019afe" : "#fe019a";
+  for (let i = 0; i < cells.length; i++) {
+    const [row, col] = cells[i];
+    const cell = document.querySelector(
+      `.cell[data-positionX="${row}"][data-positionY="${col}"]`
+    );
+    cell.classList.add("winning-cell");
+    cell.style.backgroundColor = currentPlayerColor;
   }
 }
 

@@ -25,36 +25,30 @@ body {
   flex-grow: 1;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .area {
+  margin-left: 25px;
+  margin-right: 25px;
+  flex-grow: 1;
   display: grid;
-  justify-items: center;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
   text-align: center;
-  grid-template-columns: repeat(3, auto);
   gap: 10px;
-  font-size: 70px;
+  max-width: 400px;
+  max-height: 400px;
 }
 
 .cell {
-  width: 100px;
-  height: 100px;
   background-color: #fff;
   border-radius: 5px;
   cursor: pointer;
+  aspect-ratio: 1;
 }
 
 @media only screen and (max-width: 480px) {
-  .cell {
-    width: 80px;
-    height: 80px;
-  }
-
   .area {
-    font-size: 50px;
+    // font-size: 50px;
     margin-top: 16px;
   }
 
@@ -199,9 +193,9 @@ body {
   left: 0;
   width: 85px;
   height: 40px;
-  background-color: $grey-color;
   z-index: -1;
   transition: 0.2s ease-in-out;
+  background-color: #019afe;
 }
 
 .results-container {
