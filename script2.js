@@ -302,8 +302,75 @@ function checkWin() {
         }
       }
     }
-  }
+  } else if (gridSize === 5) {
+    for (let i = 0; i < gridSize; i++) {
+      for (let j = 0; j < gridSize - 2; j++) {
+        if (
+          board[i][j] !== "" &&
+          board[i][j] === board[i][j + 1] &&
+          board[i][j + 1] === board[i][j + 2]
+        ) {
+          highlightWinningCells([
+            [i, j],
+            [i, j + 1],
+            [i, j + 2]
+          ]);
+          return true;
+        }
+      }
+    }
 
+    for (let i = 0; i < gridSize - 2; i++) {
+      for (let j = 0; j < gridSize; j++) {
+        if (
+          board[i][j] !== "" &&
+          board[i][j] === board[i + 1][j] &&
+          board[i + 1][j] === board[i + 2][j]
+        ) {
+          highlightWinningCells([
+            [i, j],
+            [i + 1, j],
+            [i + 2, j]
+          ]);
+          return true;
+        }
+      }
+    }
+
+    for (let i = 0; i < gridSize - 2; i++) {
+      for (let j = 0; j < gridSize - 2; j++) {
+        if (
+          board[i][j] !== "" &&
+          board[i][j] === board[i + 1][j + 1] &&
+          board[i + 1][j + 1] === board[i + 2][j + 2]
+        ) {
+          highlightWinningCells([
+            [i, j],
+            [i + 1, j + 1],
+            [i + 2, j + 2]
+          ]);
+          return true;
+        }
+      }
+    }
+
+    for (let i = 0; i < gridSize - 2; i++) {
+      for (let j = 2; j < gridSize; j++) {
+        if (
+          board[i][j] !== "" &&
+          board[i][j] === board[i + 1][j - 1] &&
+          board[i + 1][j - 1] === board[i + 2][j - 2]
+        ) {
+          highlightWinningCells([
+            [i, j],
+            [i + 1, j - 1],
+            [i + 2, j - 2]
+          ]);
+          return true;
+        }
+      }
+    }
+  }
   return false;
 }
 
