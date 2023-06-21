@@ -46,14 +46,6 @@ function handleModeClick(event) {
           fontSize = "80px";
         }
         break;
-      case "fourByFour":
-        gridSize = 4;
-        if (document.documentElement.clientWidth <= 480) {
-          fontSize = "46px";
-        } else {
-          fontSize = "60px";
-        }
-        break;
       case "fiveByFive":
         gridSize = 5;
         if (document.documentElement.clientWidth <= 480) {
@@ -234,143 +226,84 @@ function checkWin() {
     }
 
     return false;
-  } else if (gridSize === 4) {
+  } else if (gridSize === 5) {
     for (let i = 0; i < gridSize; i++) {
-      for (let j = 0; j < gridSize - 2; j++) {
+      for (let j = 0; j < gridSize - 3; j++) {
         if (
           board[i][j] !== "" &&
           board[i][j] === board[i][j + 1] &&
-          board[i][j + 1] === board[i][j + 2]
+          board[i][j + 1] === board[i][j + 2] &&
+          board[i][j + 2] === board[i][j + 3]
         ) {
           highlightWinningCells([
             [i, j],
             [i, j + 1],
             [i, j + 2],
+            [i, j + 3]
           ]);
           return true;
         }
       }
     }
-
-    for (let i = 0; i < gridSize - 2; i++) {
+  
+    for (let i = 0; i < gridSize - 3; i++) {
       for (let j = 0; j < gridSize; j++) {
         if (
           board[i][j] !== "" &&
           board[i][j] === board[i + 1][j] &&
-          board[i + 1][j] === board[i + 2][j]
+          board[i + 1][j] === board[i + 2][j] &&
+          board[i + 2][j] === board[i + 3][j]
         ) {
           highlightWinningCells([
             [i, j],
             [i + 1, j],
             [i + 2, j],
+            [i + 3, j]
           ]);
           return true;
         }
       }
     }
-
-    for (let i = 0; i < gridSize - 2; i++) {
-      for (let j = 0; j < gridSize - 2; j++) {
+  
+    for (let i = 0; i < gridSize - 3; i++) {
+      for (let j = 0; j < gridSize - 3; j++) {
         if (
           board[i][j] !== "" &&
           board[i][j] === board[i + 1][j + 1] &&
-          board[i + 1][j + 1] === board[i + 2][j + 2]
+          board[i + 1][j + 1] === board[i + 2][j + 2] &&
+          board[i + 2][j + 2] === board[i + 3][j + 3]
         ) {
           highlightWinningCells([
             [i, j],
             [i + 1, j + 1],
             [i + 2, j + 2],
+            [i + 3, j + 3]
           ]);
           return true;
         }
       }
     }
-
-    for (let i = 0; i < gridSize - 2; i++) {
-      for (let j = 2; j < gridSize; j++) {
+  
+    for (let i = 0; i < gridSize - 3; i++) {
+      for (let j = 3; j < gridSize; j++) {
         if (
           board[i][j] !== "" &&
           board[i][j] === board[i + 1][j - 1] &&
-          board[i + 1][j - 1] === board[i + 2][j - 2]
+          board[i + 1][j - 1] === board[i + 2][j - 2] &&
+          board[i + 2][j - 2] === board[i + 3][j - 3]
         ) {
           highlightWinningCells([
             [i, j],
             [i + 1, j - 1],
             [i + 2, j - 2],
-          ]);
-          return true;
-        }
-      }
-    }
-  } else if (gridSize === 5) {
-    for (let i = 0; i < gridSize; i++) {
-      for (let j = 0; j < gridSize - 2; j++) {
-        if (
-          board[i][j] !== "" &&
-          board[i][j] === board[i][j + 1] &&
-          board[i][j + 1] === board[i][j + 2]
-        ) {
-          highlightWinningCells([
-            [i, j],
-            [i, j + 1],
-            [i, j + 2]
-          ]);
-          return true;
-        }
-      }
-    }
-
-    for (let i = 0; i < gridSize - 2; i++) {
-      for (let j = 0; j < gridSize; j++) {
-        if (
-          board[i][j] !== "" &&
-          board[i][j] === board[i + 1][j] &&
-          board[i + 1][j] === board[i + 2][j]
-        ) {
-          highlightWinningCells([
-            [i, j],
-            [i + 1, j],
-            [i + 2, j]
-          ]);
-          return true;
-        }
-      }
-    }
-
-    for (let i = 0; i < gridSize - 2; i++) {
-      for (let j = 0; j < gridSize - 2; j++) {
-        if (
-          board[i][j] !== "" &&
-          board[i][j] === board[i + 1][j + 1] &&
-          board[i + 1][j + 1] === board[i + 2][j + 2]
-        ) {
-          highlightWinningCells([
-            [i, j],
-            [i + 1, j + 1],
-            [i + 2, j + 2]
-          ]);
-          return true;
-        }
-      }
-    }
-
-    for (let i = 0; i < gridSize - 2; i++) {
-      for (let j = 2; j < gridSize; j++) {
-        if (
-          board[i][j] !== "" &&
-          board[i][j] === board[i + 1][j - 1] &&
-          board[i + 1][j - 1] === board[i + 2][j - 2]
-        ) {
-          highlightWinningCells([
-            [i, j],
-            [i + 1, j - 1],
-            [i + 2, j - 2]
+            [i + 3, j - 3]
           ]);
           return true;
         }
       }
     }
   }
+  
   return false;
 }
 
