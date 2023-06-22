@@ -1,12 +1,13 @@
 let area = document.querySelector(".area");
 let gridSize = 3;
-let cellWidth = "100px";
-let cellHeight = "100px";
-if (document.documentElement.clientWidth <= 480) {
+if (document.documentElement.clientWidth <= 300) {
+  fontSize = "50px"
+} else if (document.documentElement.clientWidth <= 480) {
   fontSize = "66px";
 } else {
   fontSize = "80px";
 }
+let isFirstClick = false;
 let board = [];
 for (let i = 0; i < gridSize; i++) {
   board.push(Array(gridSize).fill(""));
@@ -40,7 +41,9 @@ function handleModeClick(event) {
     switch (mode) {
       case "threeByThree":
         gridSize = 3;
-        if (document.documentElement.clientWidth <= 480) {
+        if (document.documentElement.clientWidth <= 300) {
+          fontSize = "50px";
+        } else if (document.documentElement.clientWidth <= 480) {
           fontSize = "66px";
         } else {
           fontSize = "80px";
@@ -48,7 +51,9 @@ function handleModeClick(event) {
         break;
       case "fiveByFive":
         gridSize = 5;
-        if (document.documentElement.clientWidth <= 480) {
+        if (document.documentElement.clientWidth <= 300) {
+          fontSize = "26px";
+        } else if (document.documentElement.clientWidth <= 480) {
           fontSize = "36px";
         } else {
           fontSize = "48px";
@@ -86,6 +91,11 @@ playAgainButton.addEventListener("click", () => {
     document.querySelector(".results").innerHTML = "";
     playAgainButton.classList.remove("show");
     playAgainButton.style.visibility = "hidden";
+    modeElements.forEach((modeElement) => {
+      modeElement.style.visibility = "visible";
+    });
+
+    isFirstClick = false;
     ["x-score", "o-score", "draw-score"].forEach((scoreClass) => {
       document.querySelector(`.${scoreClass}`).classList.remove("shake");
     });
@@ -119,10 +129,16 @@ function handleCellClick(event) {
   if (clickedCell.classList.contains("cell") && !clickedCell.innerHTML) {
     clickedCell.innerHTML = player;
 
+    if (!isFirstClick) {
+      modeElements.forEach((modeElement) => {
+        modeElement.style.visibility = "hidden";
+      });
+      isFirstClick = true;
+    }
+
     let positionX = parseInt(clickedCell.getAttribute("data-positionX"));
     let positionY = parseInt(clickedCell.getAttribute("data-positionY"));
     board[positionX][positionY] = player;
-    console.log(board);
 
     if (player === "X") {
       player = "O";

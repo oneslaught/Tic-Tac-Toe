@@ -29,8 +29,8 @@ body {
 }
 
 .area {
-  margin-left: 25px;
-  margin-right: 25px;
+  margin-left: 20px;
+  margin-right: 20px;
   flex-grow: 1;
   display: grid;
   text-align: center;
@@ -46,14 +46,13 @@ body {
   aspect-ratio: 1;
 }
 
-@media only screen and (max-width: 480px) {
+@media screen and (max-width: 480px) {
   .area {
-    // font-size: 50px;
-    margin-top: 16px;
+    margin-top: 6px;
   }
 
   .mode-container {
-    margin-top: 10px;
+    margin-top: 2px;
   }
 }
 
@@ -83,6 +82,8 @@ body {
   font-size: 20px;
   overflow: hidden;
   transition: 0.2s;
+  opacity: 1;
+  transition: opacity 0.5s, color 0.2s, background-color 0.2s, box-shadow 0.2s;
 }
 
 .change-mode:hover.threeByThree {
@@ -99,7 +100,6 @@ body {
 
 #play-again {
   color: #fff;
-  margin: 10px;
   padding: 12px 20px;
   min-width: 200px;
   background: none;
@@ -159,7 +159,7 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
-  margin-top: 30px;
+  margin-top: 5px;
   color: #fff;
 }
 
