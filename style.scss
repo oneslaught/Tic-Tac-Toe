@@ -98,6 +98,51 @@ body {
   box-shadow: 0 0 10px #f77700, 0 0 40px #f77700, 0 0 80px #f77700;
 }
 
+.game-mode-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.change-game-mod {
+  position: relative;
+  display: inline-block;
+  padding: 8px 16px;
+  margin: 5px;
+  color: #c7c7c7;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-decoration: none;
+  font-size: 20px;
+  overflow: hidden;
+  transition: opacity 0.5s, color 0.2s, background-color 0.2s, box-shadow 0.2s;
+}
+
+.change-game-mod:hover.local {
+  color: #8b7002;
+  background-color: #F1C40F;
+  box-shadow: 0 0 10px #F1C40F, 0 0 40px #F1C40F, 0 0 80px #F1C40F;
+}
+
+.change-game-mod:hover.online {
+  color: #242d8d;
+  background-color: #4754E8;
+  box-shadow: 0 0 10px #4754E8, 0 0 40px #4754E8, 0 0 80px #4754E8;
+}
+
+.change-game-mod:hover.easy-bot {
+  color: #163d17;
+  background-color: #36993A;
+  box-shadow: 0 0 10px #36993A, 0 0 40px #36993A, 0 0 80px #36993A;
+}
+
+.change-game-mod:hover.impossible-bot {
+  color: #652f7a;
+  background-color: #AD1FCF ;
+  box-shadow: 0 0 10px #AD1FCF , 0 0 40px #AD1FCF , 0 0 80px #AD1FCF;
+}
+
 #play-again {
   color: #fff;
   padding: 12px 20px;

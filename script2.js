@@ -94,6 +94,9 @@ playAgainButton.addEventListener("click", () => {
     modeElements.forEach((modeElement) => {
       modeElement.style.visibility = "visible";
     });
+    document.querySelectorAll(".change-game-mod").forEach((element) => {
+      element.style.visibility = "visible"
+    });
 
     isFirstClick = false;
     ["x-score", "o-score", "draw-score"].forEach((scoreClass) => {
@@ -132,6 +135,9 @@ function handleCellClick(event) {
     if (!isFirstClick) {
       modeElements.forEach((modeElement) => {
         modeElement.style.visibility = "hidden";
+      });
+      document.querySelectorAll(".change-game-mod").forEach((element) => {
+        element.style.visibility = "hidden"
       });
       isFirstClick = true;
     }
