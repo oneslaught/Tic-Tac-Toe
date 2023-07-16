@@ -46,16 +46,6 @@ body {
   aspect-ratio: 1;
 }
 
-@media screen and (max-width: 480px) {
-  .area {
-    margin-top: 6px;
-  }
-
-  .mode-container {
-    margin-top: 2px;
-  }
-}
-
 .cell:hover:not(.winning-cell) {
   background-color: rgb(228, 226, 226);
 }
@@ -64,48 +54,14 @@ body {
   color: #fff;
 }
 
-.mode-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.change-mode {
-  position: relative;
-  display: inline-block;
-  padding: 8px 16px;
-  margin: 2px 10px;
-  color: #c7c7c7;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  text-decoration: none;
-  font-size: 20px;
-  overflow: hidden;
-  transition: 0.2s;
-  opacity: 1;
-  transition: opacity 0.5s, color 0.2s, background-color 0.2s, box-shadow 0.2s;
-}
-
-.change-mode:hover.threeByThree {
-  color: #028060;
-  background-color: #00f0b4;
-  box-shadow: 0 0 10px #00f0b4, 0 0 40px #00f0b4, 0 0 80px #00f0b4;
-}
-
-.change-mode:hover.fiveByFive {
-  color: #813e00;
-  background-color: #f77700;
-  box-shadow: 0 0 10px #f77700, 0 0 40px #f77700, 0 0 80px #f77700;
-}
-
-.game-mode-container {
+.mode-container, .game-mode-container {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
 }
 
-.change-game-mod {
+.change-game-mode, .change-mode {
   position: relative;
   display: inline-block;
   padding: 8px 16px;
@@ -119,28 +75,100 @@ body {
   transition: opacity 0.5s, color 0.2s, background-color 0.2s, box-shadow 0.2s;
 }
 
-.change-game-mod:hover.local {
+.change-game-mode:focus, .change-mode:focus {
+  outline: none;
+}
+
+.change-game-mode {
+  margin: 0 5px;
+}
+
+.change-mode:hover.threeByThree, .change-mode:focus.threeByThree {
+  color: #028060;
+  background-color: #00f0b4;
+  box-shadow: 0 0 10px #00f0b4, 0 0 40px #00f0b4, 0 0 80px #00f0b4;
+}
+
+.change-mode:hover.fiveByFive, .change-mode:focus.fiveByFive {
+  color: #813e00;
+  background-color: #f77700;
+  box-shadow: 0 0 10px #f77700, 0 0 40px #f77700, 0 0 80px #f77700;
+}
+
+.change-game-mode:hover.local, .change-game-mode:focus.local {
   color: #8b7002;
   background-color: #F1C40F;
   box-shadow: 0 0 10px #F1C40F, 0 0 40px #F1C40F, 0 0 80px #F1C40F;
 }
 
-.change-game-mod:hover.online {
+.change-game-mode:hover.online, .change-game-mode:focus.online {
   color: #242d8d;
   background-color: #4754E8;
   box-shadow: 0 0 10px #4754E8, 0 0 40px #4754E8, 0 0 80px #4754E8;
 }
 
-.change-game-mod:hover.easy-bot {
+.change-game-mode:hover.easy-bot, .change-game-mode:focus.easy-bot {
   color: #163d17;
   background-color: #36993A;
   box-shadow: 0 0 10px #36993A, 0 0 40px #36993A, 0 0 80px #36993A;
 }
 
-.change-game-mod:hover.impossible-bot {
+.change-game-mode:hover.hard-bot, .change-game-mode:focus.hard-bot {
   color: #652f7a;
   background-color: #AD1FCF ;
   box-shadow: 0 0 10px #AD1FCF , 0 0 40px #AD1FCF , 0 0 80px #AD1FCF;
+}
+
+@media (max-width: 480px) {
+  .area {
+    margin-top: 6px;
+  }
+
+  .mode-container {
+    margin-top: 2px;
+  }
+
+  .change-mode:hover.threeByThree, .change-mode:focus.threeByThree {
+    box-shadow: 0 0 4px #00f0b4, 0 0 26px #00f0b4, 0 0 46px #00f0b4;
+  }
+
+  .change-mode:hover.fiveByFive, .change-mode:focus.fiveByFive {
+    box-shadow: 0 0 4px #f77700, 0 0 26px #f77700, 0 0 46px #f77700;
+  }
+
+  .change-game-mode:hover.local, .change-game-mode:focus.local {
+    box-shadow: 0 0 4px #F1C40F, 0 0 26px #F1C40F, 0 0 46px #F1C40F;
+  }
+
+  .change-game-mode:hover.online, .change-game-mode:focus.online {
+    box-shadow: 0 0 4px #4754E8, 0 0 26px #4754E8, 0 0 46px #4754E8;
+  }
+  
+  .change-game-mode:hover.easy-bot, .change-game-mode:focus.easy-bot {
+    box-shadow: 0 0 4px #36993A, 0 0 26px #36993A, 0 0 46px #36993A;
+  }
+
+  .change-game-mode:hover.hard-bot, .change-game-mode:focus.hard-bot {
+    box-shadow: 0 0 4px #AD1FCF , 0 0 26px #AD1FCF , 0 0 46px #AD1FCF;
+  }
+
+  [tabindex="1"],
+  [tabindex="2"] {
+    font-size: 18px;
+    padding: 6px 14px;
+  }
+  [tabindex="3"],
+  [tabindex="4"],
+  [tabindex="5"],
+  [tabindex="6"] {
+    letter-spacing: 1px;
+    font-size: 18px;
+    padding: 5px 10px;
+  }
+
+  [tabindex="6"] {
+    margin-top: 4px;
+  }
 }
 
 #play-again {
@@ -195,6 +223,12 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.player-turn {
+  color: #fff;
+  text-align: center;
+  font-size: 26px;
 }
 
 .turn-container {
@@ -320,4 +354,12 @@ body {
 
 .score span {
   font-size: 20px;
+}
+
+.o {
+ color: #fe019a;
+}
+
+.x {
+  color: #019afe;
 }

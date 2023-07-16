@@ -2,10 +2,16 @@ let area = document.querySelector(".area");
 let gridSize = 3;
 if (document.documentElement.clientWidth <= 300) {
   fontSize = "50px"
+  document.querySelector(".turn-container").style.display = "none";
+  document.querySelector(".turn-container-mobile").style.display = "block";
 } else if (document.documentElement.clientWidth <= 480) {
   fontSize = "66px";
+  document.querySelector(".turn-container").style.display = "none";
+  document.querySelector(".turn-container-mobile").style.display = "block";
 } else {
   fontSize = "80px";
+  document.querySelector(".turn-container-mobile").style.display = "none";
+  document.querySelector(".turn-container").style.display = "grid";
 }
 let isFirstClick = false;
 let board = [];
@@ -94,7 +100,7 @@ playAgainButton.addEventListener("click", () => {
     modeElements.forEach((modeElement) => {
       modeElement.style.visibility = "visible";
     });
-    document.querySelectorAll(".change-game-mod").forEach((element) => {
+    document.querySelectorAll(".change-game-mode").forEach((element) => {
       element.style.visibility = "visible"
     });
 
@@ -136,7 +142,7 @@ function handleCellClick(event) {
       modeElements.forEach((modeElement) => {
         modeElement.style.visibility = "hidden";
       });
-      document.querySelectorAll(".change-game-mod").forEach((element) => {
+      document.querySelectorAll(".change-game-mode").forEach((element) => {
         element.style.visibility = "hidden"
       });
       isFirstClick = true;
@@ -155,6 +161,8 @@ function handleCellClick(event) {
       document.querySelector(".bg").style.left = "";
       document.querySelector(".bg").style.backgroundColor = "#019afe";
     }
+
+    document.querySelector(".player-turn").textContent = `Player ${player}'s turn`;
 
     if (checkWin()) {
       let currentPlayer = player === "X" ? "O" : "X";
@@ -370,3 +378,29 @@ function updateStatistics() {
   document.getElementById("draw-score").innerHTML = statistics.D;
   document.getElementById("o-score").innerHTML = statistics.O;
 }
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Tab") {
+    event.preventDefault();
+    let firstElementTabIndex = 1;
+    let lastElementTabIndex = 6;
+    let currentElement = document.activeElement;
+
+    let focusableElements = Array.from(document.querySelectorAll("[tabindex]")).filter(
+      (element) => {
+        let tabIndex = parseInt(element.getAttribute("tabindex"));
+        return tabIndex >= firstElementTabIndex && tabIndex <= lastElementTabIndex;
+      }
+    );
+
+    let currentIndex = focusableElements.indexOf(currentElement);
+
+    if (event.shiftKey) {
+      let previousIndex = (currentIndex - 1 + focusableElements.length) % focusableElements.length;
+      focusableElements[previousIndex].focus();
+    } else {
+      let nextIndex = (currentIndex + 1) % focusableElements.length;
+      focusableElements[nextIndex].focus();
+    }
+  }
+});
