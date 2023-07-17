@@ -120,14 +120,6 @@ body {
 }
 
 @media (max-width: 480px) {
-  .area {
-    margin-top: 6px;
-  }
-
-  .mode-container {
-    margin-top: 2px;
-  }
-
   .change-mode:hover.threeByThree, .change-mode:focus.threeByThree {
     box-shadow: 0 0 4px #00f0b4, 0 0 26px #00f0b4, 0 0 46px #00f0b4;
   }
@@ -354,6 +346,29 @@ body {
 
 .score span {
   font-size: 20px;
+}
+
+@media (max-width: 480px) {
+  .area {
+    margin-top: 6px;
+  }
+
+  .mode-container {
+    margin-top: 2px;
+  }
+
+  .score-container {
+    height: 60px;
+  }
+
+  .score-container ul li {
+    width: 90px;
+    height: 54px;
+  }
+
+  .score p {
+    font-size: 17px;
+  }
 }
 
 .o {

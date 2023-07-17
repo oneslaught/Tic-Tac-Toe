@@ -11,6 +11,7 @@ if (document.documentElement.clientWidth <= 300) {
 } else {
   fontSize = "80px";
   document.querySelector(".turn-container").style.display = "grid";
+  document.querySelector(".turn-container-mobile").style.display = "none";
 }
 let isFirstClick = false;
 let board = [];
