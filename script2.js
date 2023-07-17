@@ -402,13 +402,11 @@ function handleButtonClick(event) {
   focusableButtons.forEach((button) => {
     if (button !== event.target) {
       button.classList.remove("clicked");
-      button.classList.remove("active");
     }
   });
 
   isButtonClicked = true;
   event.target.classList.add("clicked");
-  event.target.classList.add("active");
 }
 
 function handleButtonKeydown(event) {
