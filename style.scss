@@ -75,6 +75,14 @@ body {
   transition: opacity 0.5s, color 0.2s, background-color 0.2s, box-shadow 0.2s;
 }
 
+.game-mode-container {
+  height: 52px;
+}
+
+.mode-container {
+  height: 59px;
+}
+
 .change-game-mode:focus, .change-mode:focus {
   outline: none;
 }
@@ -83,37 +91,41 @@ body {
   margin: 0 5px;
 }
 
-.change-mode:hover.threeByThree, .change-mode:focus.threeByThree {
+.active {
+  border: 2px solid #fff;
+}
+
+.change-mode:hover.threeByThree, .change-mode:focus.threeByThree, .change-mode.threeByThree.clicked {
   color: #028060;
   background-color: #00f0b4;
   box-shadow: 0 0 10px #00f0b4, 0 0 40px #00f0b4, 0 0 80px #00f0b4;
 }
 
-.change-mode:hover.fiveByFive, .change-mode:focus.fiveByFive {
+.change-mode:hover.fiveByFive, .change-mode:focus.fiveByFive, .change-mode.fiveByFive.clicked {
   color: #813e00;
   background-color: #f77700;
   box-shadow: 0 0 10px #f77700, 0 0 40px #f77700, 0 0 80px #f77700;
 }
 
-.change-game-mode:hover.local, .change-game-mode:focus.local {
+.change-game-mode:hover.local, .change-game-mode:focus.local, .change-game-mode.local.clicked {
   color: #8b7002;
   background-color: #F1C40F;
   box-shadow: 0 0 10px #F1C40F, 0 0 40px #F1C40F, 0 0 80px #F1C40F;
 }
 
-.change-game-mode:hover.online, .change-game-mode:focus.online {
+.change-game-mode:hover.online, .change-game-mode:focus.online, .change-game-mode.online.clicked {
   color: #242d8d;
   background-color: #4754E8;
   box-shadow: 0 0 10px #4754E8, 0 0 40px #4754E8, 0 0 80px #4754E8;
 }
 
-.change-game-mode:hover.easy-bot, .change-game-mode:focus.easy-bot {
+.change-game-mode:hover.easy-bot, .change-game-mode:focus.easy-bot, .change-game-mode.easy-bot.clicked {
   color: #163d17;
   background-color: #36993A;
   box-shadow: 0 0 10px #36993A, 0 0 40px #36993A, 0 0 80px #36993A;
 }
 
-.change-game-mode:hover.hard-bot, .change-game-mode:focus.hard-bot {
+.change-game-mode:hover.hard-bot, .change-game-mode:focus.hard-bot, .change-game-mode.hard-bot.clicked {
   color: #652f7a;
   background-color: #AD1FCF ;
   box-shadow: 0 0 10px #AD1FCF , 0 0 40px #AD1FCF , 0 0 80px #AD1FCF;

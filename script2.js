@@ -384,34 +384,80 @@ function updateStatistics() {
   document.getElementById("o-score").innerHTML = statistics.O;
 }
 
+let isButtonClicked = false;
+let isButtonFocusedWithTab = false;
+
+let focusableElements = Array.from(document.querySelectorAll("[tabindex]"));
+let focusableButtons = focusableElements.filter((element) =>
+  element.classList.contains("change-mode") || element.classList.contains("change-game-mode")
+);
+
+focusableButtons.forEach((button) => {
+  button.addEventListener("click", handleButtonClick);
+  button.addEventListener("keydown", handleButtonKeydown);
+  button.addEventListener("blur", handleButtonBlur);
+});
+
+function handleButtonClick(event) {
+  focusableButtons.forEach((button) => {
+    if (button !== event.target) {
+      button.classList.remove("clicked");
+      button.classList.remove("active");
+    }
+  });
+
+  isButtonClicked = true;
+  event.target.classList.add("clicked");
+  event.target.classList.add("active");
+}
+
+function handleButtonKeydown(event) {
+  if (event.key === "Enter") {
+    focusableButtons.forEach((button) => {
+      if (button !== event.target) {
+        button.classList.remove("clicked");
+      }
+    });
+    isButtonClicked = false;
+    event.target.classList.add("clicked");
+  } else if (event.key === "Tab") {
+    isButtonFocusedWithTab = true;
+  }
+}
+
+function handleButtonBlur(event) {
+  if (!isButtonClicked && !isButtonFocusedWithTab) {
+    event.target.classList.remove("clicked");
+  }
+  isButtonClicked = false;
+  isButtonFocusedWithTab = false;
+}
+
 document.addEventListener("keydown", (event) => {
   if (event.key === "Tab") {
     event.preventDefault();
-    let firstElementTabIndex = 1;
-    let lastElementTabIndex = 6;
     let currentElement = document.activeElement;
-
-    let focusableElements = Array.from(document.querySelectorAll("[tabindex]")).filter(
-      (element) => {
-        let tabIndex = parseInt(element.getAttribute("tabindex"));
-        return tabIndex >= firstElementTabIndex && tabIndex <= lastElementTabIndex;
-      }
-    );
-
     let currentIndex = focusableElements.indexOf(currentElement);
     let firstTabIndexElement = focusableElements[0];
+    let lastTabIndexElement = focusableElements[focusableElements.length - 1];
 
     if (event.shiftKey) {
       if (currentElement === document.body || currentElement === firstTabIndexElement) {
-        let lastTabIndexElement = focusableElements[focusableElements.length - 1];
         lastTabIndexElement.focus();
       } else {
         let previousIndex = (currentIndex - 1 + focusableElements.length) % focusableElements.length;
         focusableElements[previousIndex].focus();
       }
     } else {
-      let nextIndex = (currentIndex + 1) % focusableElements.length;
-      focusableElements[nextIndex].focus();
+      if (currentElement === lastTabIndexElement) {
+        firstTabIndexElement.focus();
+      } else {
+        let nextIndex = (currentIndex + 1) % focusableElements.length;
+        focusableElements[nextIndex].focus();
+      }
     }
   }
 });
+
+
+
