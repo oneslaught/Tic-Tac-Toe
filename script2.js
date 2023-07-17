@@ -10,7 +10,6 @@ if (document.documentElement.clientWidth <= 300) {
   document.querySelector(".turn-container-mobile").style.display = "block";
 } else {
   fontSize = "80px";
-  document.querySelector(".turn-container-mobile").style.display = "none";
   document.querySelector(".turn-container").style.display = "grid";
 }
 let isFirstClick = false;
@@ -156,10 +155,12 @@ function handleCellClick(event) {
       player = "O";
       document.querySelector(".bg").style.left = "85px";
       document.querySelector(".bg").style.backgroundColor = "#fe019a";
+      document.getElementById("highlight-current-player").classList.add("x");
     } else {
       player = "X";
       document.querySelector(".bg").style.left = "";
       document.querySelector(".bg").style.backgroundColor = "#019afe";
+      document.getElementById("highlight-current-player").classList.add("o");
     }
 
     document.querySelector(".player-turn").textContent = `Player ${player}'s turn`;
@@ -394,10 +395,16 @@ document.addEventListener("keydown", (event) => {
     );
 
     let currentIndex = focusableElements.indexOf(currentElement);
+    let firstTabIndexElement = focusableElements[0];
 
     if (event.shiftKey) {
-      let previousIndex = (currentIndex - 1 + focusableElements.length) % focusableElements.length;
-      focusableElements[previousIndex].focus();
+      if (currentElement === document.body || currentElement === firstTabIndexElement) {
+        let lastTabIndexElement = focusableElements[focusableElements.length - 1];
+        lastTabIndexElement.focus();
+      } else {
+        let previousIndex = (currentIndex - 1 + focusableElements.length) % focusableElements.length;
+        focusableElements[previousIndex].focus();
+      }
     } else {
       let nextIndex = (currentIndex + 1) % focusableElements.length;
       focusableElements[nextIndex].focus();
