@@ -117,6 +117,7 @@ playAgainButton.addEventListener("click", () => {
 });
 
 let player = "X";
+document.getElementById("highlight-current-player").classList.add("x")
 
 function enableClicks() {
   Array.from(cell).forEach((actualCell) => {
@@ -155,15 +156,17 @@ function handleCellClick(event) {
       player = "O";
       document.querySelector(".bg").style.left = "85px";
       document.querySelector(".bg").style.backgroundColor = "#fe019a";
-      document.getElementById("highlight-current-player").classList.add("x");
+      document.getElementById("highlight-current-player").classList.toggle("o");
+      document.getElementById("highlight-current-player").classList.remove("x");
     } else {
       player = "X";
       document.querySelector(".bg").style.left = "";
       document.querySelector(".bg").style.backgroundColor = "#019afe";
-      document.getElementById("highlight-current-player").classList.add("o");
+      document.getElementById("highlight-current-player").classList.add("x");
+      document.getElementById("highlight-current-player").classList.remove("o");
     }
 
-    document.querySelector(".player-turn").textContent = `Player ${player}'s turn`;
+    document.getElementById("highlight-current-player").textContent = `${player}`
 
     if (checkWin()) {
       let currentPlayer = player === "X" ? "O" : "X";
