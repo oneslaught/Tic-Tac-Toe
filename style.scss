@@ -163,10 +163,6 @@ body {
     font-size: 18px;
     padding: 5px 10px;
   }
-
-  [tabindex="6"] {
-    margin-top: 4px;
-  }
 }
 
 #play-again {
@@ -374,6 +370,10 @@ body {
 
   .score p {
     font-size: 17px;
+  }
+
+  .change-game-mode, .change-mode {
+    border: 1.5px solid transparent;
   }
 
   .clicked {
