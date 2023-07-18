@@ -85,16 +85,22 @@ body {
   border: 2px solid #fff;
 }
 
-.change-mode:hover.threeByThree, .change-mode:focus.threeByThree, .change-mode.threeByThree.clicked {
+.change-mode:hover.fiveByFive, .change-mode:focus.fiveByFive, .change-mode.fiveByFive.clicked {
   color: #028060;
   background-color: #00f0b4;
   box-shadow: 0 0 10px #00f0b4, 0 0 40px #00f0b4, 0 0 80px #00f0b4;
 }
 
-.change-mode:hover.fiveByFive, .change-mode:focus.fiveByFive, .change-mode.fiveByFive.clicked {
+.change-mode:hover.threeByThree, .change-mode:focus.threeByThree, .change-mode.threeByThree.clicked {
   color: #813e00;
   background-color: #f77700;
   box-shadow: 0 0 10px #f77700, 0 0 40px #f77700, 0 0 80px #f77700;
+}
+
+.change-mode:hover.sevenBySeven, .change-mode:focus.sevenBySeven, .change-mode.sevenBySeven.clicked {
+  color: #5e140c;
+  background-color: #c22513;
+  box-shadow: 0 0 10px #c22513, 0 0 40px #c22513, 0 0 80px #c22513;
 }
 
 .change-game-mode:hover.local, .change-game-mode:focus.local, .change-game-mode.local.clicked {
@@ -122,11 +128,14 @@ body {
 }
 
 @media (max-width: 480px) {
-  .change-mode:hover.threeByThree, .change-mode:focus.threeByThree {
+  .change-mode:hover.fiveByFive, .change-mode:focus.fiveByFive {
     box-shadow: 0 0 4px #00f0b4, 0 0 26px #00f0b4, 0 0 46px #00f0b4;
   }
   .change-mode:hover.fiveByFive, .change-mode:focus.fiveByFive {
     box-shadow: 0 0 4px #f77700, 0 0 26px #f77700, 0 0 46px #f77700;
+  }
+  .change-mode:hover.sevenBySeven, .change-mode:focus.sevenBySeven {
+    box-shadow: 0 0 4px #c22513, 0 0 26px #c22513, 0 0 46px #c22513;
   }
   .change-game-mode:hover.local, .change-game-mode:focus.local {
     box-shadow: 0 0 4px #F1C40F, 0 0 26px #F1C40F, 0 0 46px #F1C40F;

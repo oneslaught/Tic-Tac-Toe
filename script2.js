@@ -1,7 +1,7 @@
 let area = document.querySelector(".area");
 let gridSize = 3;
 if (document.documentElement.clientWidth <= 300) {
-  fontSize = "50px"
+  fontSize = "50px";
   document.querySelector(".turn-container").style.display = "none";
   document.querySelector(".turn-container-mobile").style.display = "block";
 } else if (document.documentElement.clientWidth <= 480) {
@@ -65,6 +65,16 @@ function handleModeClick(event) {
           fontSize = "48px";
         }
         break;
+      case "sevenBySeven":
+        gridSize = 7;
+        if (document.documentElement.clientWidth <= 300) {
+          fontSize = "18px";
+        } else if (document.documentElement.clientWidth <= 480) {
+          fontSize = "24px";
+        } else {
+          fontSize = "32px";
+        }
+        break;
       default:
         gridSize = 3;
         if (document.documentElement.clientWidth <= 480) {
@@ -101,7 +111,7 @@ playAgainButton.addEventListener("click", () => {
       modeElement.style.visibility = "visible";
     });
     document.querySelectorAll(".change-game-mode").forEach((element) => {
-      element.style.visibility = "visible"
+      element.style.visibility = "visible";
     });
 
     isFirstClick = false;
@@ -118,7 +128,7 @@ playAgainButton.addEventListener("click", () => {
 });
 
 let player = "X";
-document.getElementById("highlight-current-player").classList.add("x")
+document.getElementById("highlight-current-player").classList.add("x");
 
 function enableClicks() {
   Array.from(cell).forEach((actualCell) => {
@@ -144,7 +154,7 @@ function handleCellClick(event) {
         modeElement.style.visibility = "hidden";
       });
       document.querySelectorAll(".change-game-mode").forEach((element) => {
-        element.style.visibility = "hidden"
+        element.style.visibility = "hidden";
       });
       isFirstClick = true;
     }
@@ -167,7 +177,9 @@ function handleCellClick(event) {
       document.getElementById("highlight-current-player").classList.remove("o");
     }
 
-    document.getElementById("highlight-current-player").textContent = `${player}`
+    document.getElementById(
+      "highlight-current-player"
+    ).textContent = `${player}`;
 
     if (checkWin()) {
       let currentPlayer = player === "X" ? "O" : "X";
@@ -261,7 +273,7 @@ function checkWin() {
     }
 
     return false;
-  } else if (gridSize === 5) {
+  } else if (gridSize === 5 || gridSize === 7) {
     for (let i = 0; i < gridSize; i++) {
       for (let j = 0; j < gridSize - 3; j++) {
         if (
@@ -274,13 +286,13 @@ function checkWin() {
             [i, j],
             [i, j + 1],
             [i, j + 2],
-            [i, j + 3]
+            [i, j + 3],
           ]);
           return true;
         }
       }
     }
-  
+
     for (let i = 0; i < gridSize - 3; i++) {
       for (let j = 0; j < gridSize; j++) {
         if (
@@ -293,13 +305,13 @@ function checkWin() {
             [i, j],
             [i + 1, j],
             [i + 2, j],
-            [i + 3, j]
+            [i + 3, j],
           ]);
           return true;
         }
       }
     }
-  
+
     for (let i = 0; i < gridSize - 3; i++) {
       for (let j = 0; j < gridSize - 3; j++) {
         if (
@@ -312,13 +324,13 @@ function checkWin() {
             [i, j],
             [i + 1, j + 1],
             [i + 2, j + 2],
-            [i + 3, j + 3]
+            [i + 3, j + 3],
           ]);
           return true;
         }
       }
     }
-  
+
     for (let i = 0; i < gridSize - 3; i++) {
       for (let j = 3; j < gridSize; j++) {
         if (
@@ -331,14 +343,14 @@ function checkWin() {
             [i, j],
             [i + 1, j - 1],
             [i + 2, j - 2],
-            [i + 3, j - 3]
+            [i + 3, j - 3],
           ]);
           return true;
         }
       }
     }
   }
-  
+
   return false;
 }
 
@@ -384,8 +396,12 @@ function updateStatistics() {
   document.getElementById("o-score").innerHTML = statistics.O;
 }
 
-let modeContainerButtons = document.querySelectorAll(".mode-container .change-mode");
-let gameModeContainerButtons = document.querySelectorAll(".game-mode-container .change-game-mode");
+let modeContainerButtons = document.querySelectorAll(
+  ".mode-container .change-mode"
+);
+let gameModeContainerButtons = document.querySelectorAll(
+  ".game-mode-container .change-game-mode"
+);
 
 modeContainerButtons.forEach((button) => {
   button.addEventListener("click", handleModeButtonClick);
