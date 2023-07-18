@@ -149,20 +149,6 @@ body {
   .change-game-mode:hover.hard-bot, .change-game-mode:focus.hard-bot {
     box-shadow: 0 0 4px #AD1FCF , 0 0 26px #AD1FCF , 0 0 46px #AD1FCF;
   }
-
-  [tabindex="1"],
-  [tabindex="2"] {
-    font-size: 18px;
-    padding: 6px 14px;
-  }
-  [tabindex="3"],
-  [tabindex="4"],
-  [tabindex="5"],
-  [tabindex="6"] {
-    letter-spacing: 1px;
-    font-size: 18px;
-    padding: 5px 10px;
-  }
 }
 
 #play-again {
@@ -360,20 +346,31 @@ body {
   }
 
   .score-container {
-    height: 60px;
+    height: 50px;
   }
 
   .score-container ul li {
     width: 90px;
-    height: 54px;
+    height: 50px;
   }
 
   .score p {
-    font-size: 17px;
+    font-size: 16px;
   }
 
   .change-game-mode, .change-mode {
     border: 1.5px solid transparent;
+  }
+
+  .change-mode {
+    font-size: 18px;
+    padding: 6px 14px;
+  }
+
+  .change-game-mode {
+    letter-spacing: 1px;
+    font-size: 18px;
+    padding: 5px 10px;
   }
 
   .clicked {
