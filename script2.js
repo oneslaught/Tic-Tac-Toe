@@ -147,6 +147,10 @@ function disableClicks() {
 function handleCellClick(event) {
   let clickedCell = event.target;
   if (clickedCell.classList.contains("cell") && !clickedCell.innerHTML) {
+    let currentPlayerColor = player === "X" ? "#019afe" : "#fe019a";
+
+    clickedCell.style.color = currentPlayerColor;
+
     clickedCell.innerHTML = player;
 
     if (!isFirstClick) {
@@ -370,7 +374,7 @@ function highlightWinningCells(cells) {
     const cell = document.querySelector(
       `.cell[data-positionX="${row}"][data-positionY="${col}"]`
     );
-    cell.classList.add("winning-cell");
+    cell.style.color = "#fff";
     cell.style.backgroundColor = currentPlayerColor;
   }
 }
