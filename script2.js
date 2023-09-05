@@ -146,10 +146,12 @@ function disableClicks() {
 
 let clickSoundX = document.getElementById("clickSoundX");
 let clickSoundO = document.getElementById("clickSoundO");
+let winSound = document.getElementById("clickSoundWin");
 
 window.addEventListener("load", () => {
   clickSoundX.load();
   clickSoundO.load();
+  winSound.load();
 });
 
 function handleCellClick(event) {
@@ -199,6 +201,8 @@ function handleCellClick(event) {
     if (checkWin()) {
       let currentPlayer = player === "X" ? "O" : "X";
       statistics[currentPlayer] += 1;
+      clickSoundWin.currentTime = 0;
+      winSound.play();
 
       playAgainButton.classList.add("show");
       playAgainButton.style.visibility = "visible";
