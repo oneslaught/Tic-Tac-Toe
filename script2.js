@@ -144,13 +144,20 @@ function disableClicks() {
   });
 }
 
+let clickSoundX = document.getElementById("clickSoundX");
+let clickSoundO = document.getElementById("clickSoundO");
+
+window.addEventListener("load", () => {
+  clickSoundX.load();
+  clickSoundO.load();
+});
+
 function handleCellClick(event) {
   let clickedCell = event.target;
   if (clickedCell.classList.contains("cell") && !clickedCell.innerHTML) {
     let currentPlayerColor = player === "X" ? "#019afe" : "#fe019a";
 
     clickedCell.style.color = currentPlayerColor;
-
     clickedCell.innerHTML = player;
 
     if (!isFirstClick) {
@@ -169,12 +176,16 @@ function handleCellClick(event) {
 
     if (player === "X") {
       player = "O";
+      clickSoundX.currentTime = 0;
+      clickSoundX.play();
       document.querySelector(".bg").style.left = "85px";
       document.querySelector(".bg").style.backgroundColor = "#fe019a";
       document.getElementById("highlight-current-player").classList.toggle("o");
       document.getElementById("highlight-current-player").classList.remove("x");
     } else {
       player = "X";
+      clickSoundO.currentTime = 0;
+      clickSoundO.play();
       document.querySelector(".bg").style.left = "";
       document.querySelector(".bg").style.backgroundColor = "#019afe";
       document.getElementById("highlight-current-player").classList.add("x");
