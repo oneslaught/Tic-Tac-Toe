@@ -97,7 +97,7 @@ body {
   box-shadow: 0 0 10px #f77700, 0 0 40px #f77700, 0 0 80px #f77700;
 }
 
-.change-mode:hover.sevenBySeven, .change-mode:focus.sevenBySeven, .change-mode.sevenBySeven.clicked {
+.change-mode:hover.pyramid, .change-mode:focus.pyramid, .change-mode.pyramid.clicked {
   color: #5e140c;
   background-color: #c22513;
   box-shadow: 0 0 10px #c22513, 0 0 40px #c22513, 0 0 80px #c22513;
@@ -136,7 +136,7 @@ body {
     box-shadow: 0 0 4px #f77700, 0 0 26px #f77700, 0 0 46px #f77700; 
   }
 
-  .change-mode:hover.sevenBySeven, .change-mode:focus.sevenBySeven {
+  .change-mode:hover.pyramid, .change-mode:focus.pyramid {
     box-shadow: 0 0 4px #c22513, 0 0 26px #c22513, 0 0 46px #c22513;
   }
 

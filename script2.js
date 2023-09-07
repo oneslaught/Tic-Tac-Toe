@@ -65,16 +65,6 @@ function handleModeClick(event) {
           fontSize = "48px";
         }
         break;
-      case "sevenBySeven":
-        gridSize = 7;
-        if (document.documentElement.clientWidth <= 300) {
-          fontSize = "18px";
-        } else if (document.documentElement.clientWidth <= 480) {
-          fontSize = "24px";
-        } else {
-          fontSize = "32px";
-        }
-        break;
       default:
         gridSize = 3;
         if (document.documentElement.clientWidth <= 480) {
@@ -128,6 +118,7 @@ playAgainButton.addEventListener("click", () => {
 });
 
 let player = "X";
+let isPlayerTurn = true;
 document.getElementById("highlight-current-player").classList.add("x");
 
 function enableClicks() {
@@ -161,6 +152,23 @@ function handleCellClick(event) {
 
     clickedCell.style.color = currentPlayerColor;
     clickedCell.innerHTML = player;
+
+    enableClicks();
+
+    if (!checkWin() && !checkDraw() && isEasyBotModeSelected()) {
+      disableClicks();
+      isPlayerTurn = false;
+
+      setTimeout(() => {
+        easyBotMove();
+
+        setTimeout(() => {
+          if (!checkWin() || checkDraw()) {
+            enableClicks();
+          }
+        }, 0);
+      }, 1000);
+    }
 
     if (!isFirstClick) {
       modeElements.forEach((modeElement) => {
@@ -201,7 +209,7 @@ function handleCellClick(event) {
     if (checkWin()) {
       let currentPlayer = player === "X" ? "O" : "X";
       statistics[currentPlayer] += 1;
-      clickSoundWin.currentTime = 0;
+      winSound.currentTime = 0;
       winSound.play();
 
       playAgainButton.classList.add("show");
@@ -292,7 +300,7 @@ function checkWin() {
     }
 
     return false;
-  } else if (gridSize === 5 || gridSize === 7) {
+  } else if (gridSize === 5) {
     for (let i = 0; i < gridSize; i++) {
       for (let j = 0; j < gridSize - 3; j++) {
         if (
@@ -448,4 +456,43 @@ function handleGameModeButtonClick(event) {
   });
 
   event.target.classList.add("clicked");
+
+  if (event.target.classList.contains("easy-bot")) {
+    easyBotMove();
+  }
+}
+
+function easyBotMove() {
+  if (!isPlayerTurn) {
+    if (checkWin()) {
+      return;
+    }
+    let emptyCells = [];
+
+    for (let i = 0; i < gridSize; i++) {
+      for (let j = 0; j < gridSize; j++) {
+        if (board[i][j] === "") {
+          emptyCells.push([i, j]);
+        }
+      }
+    }
+
+    if (emptyCells.length > 0) {
+      let randomIndex = Math.floor(Math.random() * emptyCells.length);
+      let [row, col] = emptyCells[randomIndex];
+
+      handleCellClick({
+        target: document.querySelector(
+          `.cell[data-positionX="${row}"][data-positionY="${col}"]`
+        ),
+      });
+
+      isPlayerTurn = true;
+    }
+  }
+}
+
+function isEasyBotModeSelected() {
+  let easyBotButton = document.querySelector(".change-game-mode.easy-bot");
+  return easyBotButton.classList.contains("clicked");
 }
