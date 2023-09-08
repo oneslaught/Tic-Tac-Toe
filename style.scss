@@ -46,10 +46,6 @@ body {
   aspect-ratio: 1;
 }
 
-.cell:hover:not(.winning-cell) {
-  background-color: rgb(228, 226, 226);
-}
-
 .mode-container, .game-mode-container {
   display: flex;
   justify-content: center;

@@ -91,6 +91,38 @@ modeElements.forEach((modeElement) => {
 let cell = document.getElementsByClassName("cell");
 let playAgainButton = document.getElementById("play-again");
 
+document.addEventListener("DOMContentLoaded", function () {
+  let cells = document.querySelectorAll(".cell");
+
+  cells.forEach((cell) => {
+    cell.addEventListener("mouseover", handleCellMouseOver);
+  });
+  
+  function handleCellMouseOver(event) {
+    let cell = event.target;
+  
+    if (!cell.classList.contains("winning-cell")) {
+      if (cell.textContent === "") {
+        cell.style.backgroundColor = "rgb(228, 226, 226)";
+      }
+    }
+  }
+  
+  cells.forEach((cell) => {
+    cell.addEventListener("mouseout", handleCellMouseOut);
+  });
+  
+  function handleCellMouseOut(event) {
+    let cell = event.target;
+    if (!cell.classList.contains("winning-cell")) {
+        cell.style.backgroundColor = "";
+    } else {
+      let currentPlayer = player === "X" ? "#fe019a" : "#019afe";
+      cell.style.backgroundColor = currentPlayer;
+    }
+  }
+});
+
 playAgainButton.addEventListener("click", () => {
   for (let i = 0; i < cell.length; i++) {
     cell[i].textContent = "";
@@ -397,6 +429,7 @@ function highlightWinningCells(cells) {
     const cell = document.querySelector(
       `.cell[data-positionX="${row}"][data-positionY="${col}"]`
     );
+    cell.classList.add("winning-cell");
     cell.style.color = "#fff";
     cell.style.backgroundColor = currentPlayerColor;
   }
