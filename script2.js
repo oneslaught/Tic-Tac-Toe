@@ -100,8 +100,8 @@ document.addEventListener("DOMContentLoaded", function () {
   
   function handleCellMouseOver(event) {
     let cell = event.target;
-  
-    if (!cell.classList.contains("winning-cell")) {
+
+    if (!cell.classList.contains("winning-cell") && !checkWin()) {
       if (cell.textContent === "") {
         cell.style.backgroundColor = "rgb(228, 226, 226)";
       }
@@ -261,6 +261,7 @@ function handleCellClick(event) {
       updateStatistics();
     } else if (checkDraw()) {
       statistics.D += 1;
+
       document.querySelector(".results").innerHTML = `<div class="signD">
       <span class="fast-flickerD">D</span>r<span class="flickerD">a</span>w
       </div>`;
