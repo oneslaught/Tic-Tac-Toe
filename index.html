@@ -44,8 +44,13 @@
       <div class="game-mode-container">
         <div class="change-game-mode local clicked">Local</div>
         <div class="change-game-mode online">Online</div>
-        <div class="change-game-mode easy-bot">Easy Bot</div>
-        <div class="change-game-mode hard-bot">Hard Bot</div>
+        <div class="change-game-mode easy-bot" id="bots">Easy Bot</div>
+        <div class="change-game-mode hard-bot" id="bots">Hard Bot</div>
+      </div>
+      <div class="popup" id="popup">
+        <div class="title-popup">Choose your player:</div>
+        <button type="button" class="choose-player x-popup">X</button>
+        <button type="button" class="choose-player o-popup">O</button>
       </div>
       <div class="results-container">
         <div class="results"></div>
@@ -53,6 +58,7 @@
       <div class="button-container">
         <button id="play-again">Play again</button>
       </div>
+      <div id="overlay"></div>
       <audio id="clickSoundX" preload="auto">
         <source src="https://github.com/oneslaught/Tic-Tac-Toe/raw/main/x_sound.ogg" type="audio/ogg">
     </audio>

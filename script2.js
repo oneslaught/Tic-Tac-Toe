@@ -44,6 +44,8 @@ function handleModeClick(event) {
   if (modeElement.classList.contains("change-mode")) {
     let mode = modeElement.classList[1];
 
+    resetStatistics();
+
     switch (mode) {
       case "threeByThree":
         gridSize = 3;
@@ -457,6 +459,13 @@ function updateStatistics() {
   document.getElementById("o-score").innerHTML = statistics.O;
 }
 
+function resetStatistics() {
+  statistics.X = 0;
+  statistics.D = 0;
+  statistics.O = 0;
+  updateStatistics();
+}
+
 let modeContainerButtons = document.querySelectorAll(
   ".mode-container .change-mode"
 );
@@ -480,6 +489,8 @@ function handleModeButtonClick(event) {
   });
 
   event.target.classList.add("clicked");
+
+  resetStatistics();
 }
 
 function handleGameModeButtonClick(event) {
@@ -491,10 +502,37 @@ function handleGameModeButtonClick(event) {
 
   event.target.classList.add("clicked");
 
+  resetStatistics();
+
   if (event.target.classList.contains("easy-bot")) {
     easyBotMove();
   }
 }
+
+let popup = document.getElementById("popup");
+let choosePlayers = document.querySelectorAll(".choose-player");
+let bots = document.querySelectorAll("#bots")
+let overlay = document.getElementById("overlay")
+
+function openPopup(event) {
+  let currentPlayer = event.target.classList.contains("x-popup") ? "X" : "O";
+  player = currentPlayer;
+  popup.classList.add("open-popup")
+  overlay.classList.add("active");
+}
+
+function closePopup() {
+  popup.classList.remove("open-popup")
+  overlay.classList.remove("active");
+}
+
+bots.forEach((bot) => {
+  bot.addEventListener("click", openPopup);
+});
+
+choosePlayers.forEach((choosePlayer) => {
+  choosePlayer.addEventListener("click", closePopup);
+});
 
 function easyBotMove() {
   if (!isPlayerTurn) {

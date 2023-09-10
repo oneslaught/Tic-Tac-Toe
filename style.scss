@@ -153,6 +153,79 @@ body {
   }
 }
 
+#overlay {
+  position: fixed;
+  opacity: 0;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+
+#overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.popup {
+  z-index: 10;
+  width: 400px;
+  background-color: #ffffff;
+  border-radius: 6px;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.1);
+  text-align: center;
+  padding: 0 30px 30px;
+  color: #2b2b2b;
+  visibility: hidden;
+  transition: transform 0.4s, top 0.4s;
+}
+
+.open-popup {
+  visibility: visible;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.popup .title-popup {
+  font-size: 40px;
+  font-weight: 500;
+  margin: 30px 0 10px;
+}
+
+.popup button {
+  width: 40%;
+  margin-top: 10px;
+  padding: 10px 0;
+  color: #fff;
+  border: 0;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+  font-size: 36px;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+}
+
+.x-popup {
+  background-color: #019afe;
+}
+
+.x-popup:hover {
+  background-color: #0089e4;
+}
+
+.o-popup {
+  background-color: #fe019a;
+}
+
+.o-popup:hover {
+  background-color: #e40089;
+}
+
 #play-again {
   color: #fff;
   padding: 12px 20px;
