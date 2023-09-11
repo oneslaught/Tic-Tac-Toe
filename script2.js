@@ -149,30 +149,32 @@ playAgainButton.addEventListener("click", () => {
       board.push(Array(gridSize).fill(""));
     }
 
-    player = currentPlayer;
-    if (currentPlayer === "X") {
-      document.querySelector(".bg").style.left = "";
-      document.querySelector(".bg").style.backgroundColor = "#019afe";
-      document.getElementById("highlight-current-player").classList.add("x");
-      document.getElementById("highlight-current-player").classList.remove("o");
+    if (isEasyBotModeSelected() || isHardBotModeSelected()) {
+      player = currentPlayer;
+      if (currentPlayer === "X") {
+        document.querySelector(".bg").style.left = "";
+        document.querySelector(".bg").style.backgroundColor = "#019afe";
+        document.getElementById("highlight-current-player").classList.add("x");
+        document.getElementById("highlight-current-player").classList.remove("o");
 
-      document.getElementById(
-        "highlight-current-player"
-      ).textContent = `${player}`;
-    } else {
-      document.querySelector(".bg").style.left = "85px";
-      document.querySelector(".bg").style.backgroundColor = "#fe019a";
-      document.getElementById("highlight-current-player").classList.toggle("o");
-      document.getElementById("highlight-current-player").classList.remove("x");
+        document.getElementById(
+          "highlight-current-player"
+        ).textContent = `${player}`;
+      } else {
+        document.querySelector(".bg").style.left = "85px";
+        document.querySelector(".bg").style.backgroundColor = "#fe019a";
+        document.getElementById("highlight-current-player").classList.toggle("o");
+        document.getElementById("highlight-current-player").classList.remove("x");
 
-      document.getElementById(
-        "highlight-current-player"
-      ).textContent = `${player}`;
+        document.getElementById(
+          "highlight-current-player"
+        ).textContent = `${player}`;
+      }
+      isPlayerTurn = true;
     }
-    
-    isPlayerTurn = true;
   }
 });
+
 
 let currentPlayer = "X";
 let player = "X";
@@ -615,4 +617,9 @@ function easyBotMove() {
 function isEasyBotModeSelected() {
   let easyBotButton = document.querySelector(".change-game-mode.easy-bot");
   return easyBotButton.classList.contains("clicked");
+}
+
+function isHardBotModeSelected() {
+  let hardBotButton = document.querySelector(".change-game-mode.hard-bot");
+  return hardBotButton.classList.contains("clicked");
 }
