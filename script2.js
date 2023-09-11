@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
   cells.forEach((cell) => {
     cell.addEventListener("mouseover", handleCellMouseOver);
   });
-  
+
   function handleCellMouseOver(event) {
     let cell = event.target;
 
@@ -109,15 +109,15 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
   }
-  
+
   cells.forEach((cell) => {
     cell.addEventListener("mouseout", handleCellMouseOut);
   });
-  
+
   function handleCellMouseOut(event) {
     let cell = event.target;
     if (!cell.classList.contains("winning-cell")) {
-        cell.style.backgroundColor = "";
+      cell.style.backgroundColor = "";
     } else {
       let currentPlayer = player === "X" ? "#fe019a" : "#019afe";
       cell.style.backgroundColor = currentPlayer;
@@ -148,9 +148,33 @@ playAgainButton.addEventListener("click", () => {
     for (let i = 0; i < gridSize; i++) {
       board.push(Array(gridSize).fill(""));
     }
+
+    player = currentPlayer;
+    if (currentPlayer === "X") {
+      document.querySelector(".bg").style.left = "";
+      document.querySelector(".bg").style.backgroundColor = "#019afe";
+      document.getElementById("highlight-current-player").classList.add("x");
+      document.getElementById("highlight-current-player").classList.remove("o");
+
+      document.getElementById(
+        "highlight-current-player"
+      ).textContent = `${player}`;
+    } else {
+      document.querySelector(".bg").style.left = "85px";
+      document.querySelector(".bg").style.backgroundColor = "#fe019a";
+      document.getElementById("highlight-current-player").classList.toggle("o");
+      document.getElementById("highlight-current-player").classList.remove("x");
+
+      document.getElementById(
+        "highlight-current-player"
+      ).textContent = `${player}`;
+    }
+    
+    isPlayerTurn = true;
   }
 });
 
+let currentPlayer = "X";
 let player = "X";
 let isPlayerTurn = true;
 document.getElementById("highlight-current-player").classList.add("x");
@@ -510,21 +534,45 @@ function handleGameModeButtonClick(event) {
 }
 
 let popup = document.getElementById("popup");
+let xPopup = document.querySelector(".x-popup");
+let oPopup = document.querySelector(".o-popup");
 let choosePlayers = document.querySelectorAll(".choose-player");
-let bots = document.querySelectorAll("#bots")
-let overlay = document.getElementById("overlay")
+let bots = document.querySelectorAll("#bots");
+let overlay = document.getElementById("overlay");
 
 function openPopup(event) {
   let currentPlayer = event.target.classList.contains("x-popup") ? "X" : "O";
   player = currentPlayer;
-  popup.classList.add("open-popup")
+  popup.classList.add("open-popup");
   overlay.classList.add("active");
 }
 
 function closePopup() {
-  popup.classList.remove("open-popup")
+  popup.classList.remove("open-popup");
   overlay.classList.remove("active");
 }
+
+xPopup.addEventListener("click", () => {
+  currentPlayer = "X";
+  player = currentPlayer;
+  document.querySelector(".bg").style.left = "";
+  document.querySelector(".bg").style.backgroundColor = "#019afe";
+  document.getElementById("highlight-current-player").classList.add("x");
+  document.getElementById("highlight-current-player").classList.remove("o");
+
+  document.getElementById("highlight-current-player").textContent = `${player}`;
+});
+
+oPopup.addEventListener("click", () => {
+  currentPlayer = "O";
+  player = currentPlayer;
+  document.querySelector(".bg").style.left = "85px";
+  document.querySelector(".bg").style.backgroundColor = "#fe019a";
+  document.getElementById("highlight-current-player").classList.toggle("o");
+  document.getElementById("highlight-current-player").classList.remove("x");
+
+  document.getElementById("highlight-current-player").textContent = `${player}`;
+});
 
 bots.forEach((bot) => {
   bot.addEventListener("click", openPopup);

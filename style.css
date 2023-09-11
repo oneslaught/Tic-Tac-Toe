@@ -430,6 +430,18 @@ body {
   .clicked {
     border: 1.5px solid #fff;
   }
+  .popup {
+    width: 90%;
+    transform: translate(-50%, -50%) scale(0.8);
+    padding: 10px 20px 20px;
+  }
+  .popup .title-popup {
+    font-size: 30px;
+  }
+  .popup button {
+    width: 40%;
+    font-size: 26px;
+  }
 }
 .o {
   color: #fe019a;
