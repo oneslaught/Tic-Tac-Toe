@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (!cell.classList.contains("winning-cell") && !checkWin()) {
       if (cell.textContent === "") {
-        cell.style.backgroundColor = "rgb(228, 226, 226)";
+        cell.classList.add("hover");
       }
     }
   }
@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function handleCellMouseOut(event) {
     let cell = event.target;
     if (!cell.classList.contains("winning-cell")) {
-      cell.style.backgroundColor = "";
+      cell.classList.remove("hover");
     } else {
       let currentPlayer = player === "X" ? "#fe019a" : "#019afe";
       cell.style.backgroundColor = currentPlayer;
@@ -198,11 +198,13 @@ function disableClicks() {
 let clickSoundX = document.getElementById("clickSoundX");
 let clickSoundO = document.getElementById("clickSoundO");
 let winSound = document.getElementById("clickSoundWin");
+let drawSound = document.getElementById("clickSoundDraw")
 
 window.addEventListener("load", () => {
   clickSoundX.load();
   clickSoundO.load();
   winSound.load();
+  drawSound.load();
 });
 
 function handleCellClick(event) {
@@ -289,6 +291,8 @@ function handleCellClick(event) {
       updateStatistics();
     } else if (checkDraw()) {
       statistics.D += 1;
+      drawSound.currentTime = 0;
+      drawSound.play();
 
       document.querySelector(".results").innerHTML = `<div class="signD">
       <span class="fast-flickerD">D</span>r<span class="flickerD">a</span>w

@@ -38,8 +38,15 @@ body {
 .cell {
   background-color: #fff;
   border-radius: 5px;
-  cursor: pointer;
   aspect-ratio: 1;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.hover {
+  background-color: rgb(228, 226, 226);
 }
 
 .mode-container, .game-mode-container {
