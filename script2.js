@@ -29,14 +29,17 @@ function createInitialGrid() {
       newCell.className = "cell";
       newCell.setAttribute("data-positionX", i);
       newCell.setAttribute("data-positionY", j);
+      newCell.addEventListener("click", handlePlayerCellClick, false);
       areaElement.style.fontSize = fontSize;
       area.appendChild(newCell);
     }
   }
 
-  enableClicks();
-
   areaElement.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
+
+  if ((isEasyBotModeSelected() || isHardBotModeSelected()) && player === "O") {
+    easyBotMove();
+  }
 }
 
 function handleModeClick(event) {
@@ -119,13 +122,15 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!cell.classList.contains("winning-cell")) {
       cell.classList.remove("hover");
     } else {
-      let currentPlayer = player === "X" ? "#fe019a" : "#019afe";
-      cell.style.backgroundColor = currentPlayer;
+      cell.style.backgroundColor =
+        currentPlayer === "X" ? "#019afe" : "#fe019a";
     }
   }
 });
 
-playAgainButton.addEventListener("click", () => {
+function playAgain() {
+  clearTimeout(timeOutId);
+  timeOutId = null;
   for (let i = 0; i < cell.length; i++) {
     cell[i].textContent = "";
     document.querySelector(".results").innerHTML = "";
@@ -142,7 +147,6 @@ playAgainButton.addEventListener("click", () => {
     ["x-score", "o-score", "draw-score"].forEach((scoreClass) => {
       document.querySelector(`.${scoreClass}`).classList.remove("shake");
     });
-    enableClicks();
     removeWinningCellClass();
     board = [];
     for (let i = 0; i < gridSize; i++) {
@@ -150,12 +154,13 @@ playAgainButton.addEventListener("click", () => {
     }
 
     if (isEasyBotModeSelected() || isHardBotModeSelected()) {
-      player = currentPlayer;
       if (currentPlayer === "X") {
         document.querySelector(".bg").style.left = "";
         document.querySelector(".bg").style.backgroundColor = "#019afe";
         document.getElementById("highlight-current-player").classList.add("x");
-        document.getElementById("highlight-current-player").classList.remove("o");
+        document
+          .getElementById("highlight-current-player")
+          .classList.remove("o");
 
         document.getElementById(
           "highlight-current-player"
@@ -163,42 +168,45 @@ playAgainButton.addEventListener("click", () => {
       } else {
         document.querySelector(".bg").style.left = "85px";
         document.querySelector(".bg").style.backgroundColor = "#fe019a";
-        document.getElementById("highlight-current-player").classList.toggle("o");
-        document.getElementById("highlight-current-player").classList.remove("x");
+        document
+          .getElementById("highlight-current-player")
+          .classList.toggle("o");
+        document
+          .getElementById("highlight-current-player")
+          .classList.remove("x");
 
         document.getElementById(
           "highlight-current-player"
         ).textContent = `${player}`;
       }
-      isPlayerTurn = true;
     }
   }
-});
+  if (!isEasyBotModeSelected()) {
+    player = player === "X" ? "O" : "X";
+    currentPlayer = player;
+    setCurrentPlayerDisplay();
+  }
+  if ((isEasyBotModeSelected() || isHardBotModeSelected()) && player === "O") {
+    currentPlayer = "X";
+    easyBotMove();
+  }
+}
 
+playAgainButton.addEventListener("click", () => {
+  playAgain();
+});
 
 let currentPlayer = "X";
 let player = "X";
-let isPlayerTurn = true;
+let timeOutId;
 document.getElementById("highlight-current-player").classList.add("x");
 
-function enableClicks() {
-  Array.from(cell).forEach((actualCell) => {
-    actualCell.addEventListener("click", handleCellClick, false);
-  });
-}
-
 createInitialGrid();
-
-function disableClicks() {
-  Array.from(cell).forEach((actualCell) => {
-    actualCell.removeEventListener("click", handleCellClick, false);
-  });
-}
 
 let clickSoundX = document.getElementById("clickSoundX");
 let clickSoundO = document.getElementById("clickSoundO");
 let winSound = document.getElementById("clickSoundWin");
-let drawSound = document.getElementById("clickSoundDraw")
+let drawSound = document.getElementById("clickSoundDraw");
 
 window.addEventListener("load", () => {
   clickSoundX.load();
@@ -207,30 +215,53 @@ window.addEventListener("load", () => {
   drawSound.load();
 });
 
-function handleCellClick(event) {
+function isPlayerTurn() {
+  return player === currentPlayer;
+}
+
+function handlePlayerCellClick(event) {
+  if (!checkWin() && !checkDraw()) {
+    if (!isEasyBotModeSelected()) {
+      handleCellClick(event, player);
+      player = currentPlayer;
+    }
+    if (isPlayerTurn() && isEasyBotModeSelected()) {
+      handleCellClick(event, player);
+      if (isEasyBotModeSelected() && !timeOutId) {
+        timeOutId = setTimeout(() => {
+          easyBotMove();
+          timeOutId = null;
+        }, 1000);
+      }
+    }
+  }
+}
+
+function setCurrentPlayerDisplay() {
+  if (currentPlayer === "O") {
+    document.querySelector(".bg").style.left = "85px";
+    document.querySelector(".bg").style.backgroundColor = "#fe019a";
+    document.getElementById("highlight-current-player").classList.toggle("o");
+    document.getElementById("highlight-current-player").classList.remove("x");
+  } else {
+    document.querySelector(".bg").style.left = "";
+    document.querySelector(".bg").style.backgroundColor = "#019afe";
+    document.getElementById("highlight-current-player").classList.add("x");
+    document.getElementById("highlight-current-player").classList.remove("o");
+  }
+
+  document.getElementById(
+    "highlight-current-player"
+  ).textContent = `${currentPlayer}`;
+}
+
+function handleCellClick(event, activePlayer) {
   let clickedCell = event.target;
   if (clickedCell.classList.contains("cell") && !clickedCell.innerHTML) {
-    let currentPlayerColor = player === "X" ? "#019afe" : "#fe019a";
+    let currentPlayerColor = activePlayer === "X" ? "#019afe" : "#fe019a";
 
     clickedCell.style.color = currentPlayerColor;
-    clickedCell.innerHTML = player;
-
-    enableClicks();
-
-    if (!checkWin() && !checkDraw() && isEasyBotModeSelected()) {
-      disableClicks();
-      isPlayerTurn = false;
-
-      setTimeout(() => {
-        easyBotMove();
-
-        setTimeout(() => {
-          if (!checkWin() || checkDraw()) {
-            enableClicks();
-          }
-        }, 0);
-      }, 1000);
-    }
+    clickedCell.innerHTML = activePlayer;
 
     if (!isFirstClick) {
       modeElements.forEach((modeElement) => {
@@ -244,32 +275,9 @@ function handleCellClick(event) {
 
     let positionX = parseInt(clickedCell.getAttribute("data-positionX"));
     let positionY = parseInt(clickedCell.getAttribute("data-positionY"));
-    board[positionX][positionY] = player;
-
-    if (player === "X") {
-      player = "O";
-      clickSoundX.currentTime = 0;
-      clickSoundX.play();
-      document.querySelector(".bg").style.left = "85px";
-      document.querySelector(".bg").style.backgroundColor = "#fe019a";
-      document.getElementById("highlight-current-player").classList.toggle("o");
-      document.getElementById("highlight-current-player").classList.remove("x");
-    } else {
-      player = "X";
-      clickSoundO.currentTime = 0;
-      clickSoundO.play();
-      document.querySelector(".bg").style.left = "";
-      document.querySelector(".bg").style.backgroundColor = "#019afe";
-      document.getElementById("highlight-current-player").classList.add("x");
-      document.getElementById("highlight-current-player").classList.remove("o");
-    }
-
-    document.getElementById(
-      "highlight-current-player"
-    ).textContent = `${player}`;
+    board[positionX][positionY] = activePlayer;
 
     if (checkWin()) {
-      let currentPlayer = player === "X" ? "O" : "X";
       statistics[currentPlayer] += 1;
       winSound.currentTime = 0;
       winSound.play();
@@ -287,7 +295,6 @@ function handleCellClick(event) {
         <span class="fast-flicker">${currentPlayer}  </span>w<span class="flicker">o</span>n
         </div>`;
       }
-      disableClicks();
       updateStatistics();
     } else if (checkDraw()) {
       statistics.D += 1;
@@ -302,6 +309,18 @@ function handleCellClick(event) {
       updateStatistics();
 
       document.querySelector(".draw-score").classList.add("shake");
+    } else {
+      if (currentPlayer === "X") {
+        currentPlayer = "O";
+        clickSoundX.currentTime = 0;
+        clickSoundX.play();
+      } else {
+        currentPlayer = "X";
+        clickSoundO.currentTime = 0;
+        clickSoundO.play();
+      }
+
+      setCurrentPlayerDisplay();
     }
   }
 }
@@ -450,12 +469,12 @@ function checkDraw() {
   let draw = true;
   for (let i in cell) {
     if (cell[i].innerHTML == "") draw = false;
+    ``;
   }
-  if (draw) return true;
+  return draw;
 }
 
 function highlightWinningCells(cells) {
-  let currentPlayer = player === "X" ? "O" : "X";
   let currentPlayerColor = currentPlayer === "X" ? "#019afe" : "#fe019a";
   for (let i = 0; i < cells.length; i++) {
     const [row, col] = cells[i];
@@ -474,8 +493,6 @@ function removeWinningCellClass() {
     cell[i].style.backgroundColor = "";
   }
 }
-
-enableClicks();
 
 let statistics = {
   X: 0,
@@ -533,10 +550,6 @@ function handleGameModeButtonClick(event) {
   event.target.classList.add("clicked");
 
   resetStatistics();
-
-  if (event.target.classList.contains("easy-bot")) {
-    easyBotMove();
-  }
 }
 
 let popup = document.getElementById("popup");
@@ -546,9 +559,7 @@ let choosePlayers = document.querySelectorAll(".choose-player");
 let bots = document.querySelectorAll("#bots");
 let overlay = document.getElementById("overlay");
 
-function openPopup(event) {
-  let currentPlayer = event.target.classList.contains("x-popup") ? "X" : "O";
-  player = currentPlayer;
+function openPopup() {
   popup.classList.add("open-popup");
   overlay.classList.add("active");
 }
@@ -559,8 +570,7 @@ function closePopup() {
 }
 
 xPopup.addEventListener("click", () => {
-  currentPlayer = "X";
-  player = currentPlayer;
+  player = "X";
   document.querySelector(".bg").style.left = "";
   document.querySelector(".bg").style.backgroundColor = "#019afe";
   document.getElementById("highlight-current-player").classList.add("x");
@@ -570,14 +580,14 @@ xPopup.addEventListener("click", () => {
 });
 
 oPopup.addEventListener("click", () => {
-  currentPlayer = "O";
-  player = currentPlayer;
+  player = "O";
   document.querySelector(".bg").style.left = "85px";
   document.querySelector(".bg").style.backgroundColor = "#fe019a";
   document.getElementById("highlight-current-player").classList.toggle("o");
   document.getElementById("highlight-current-player").classList.remove("x");
 
   document.getElementById("highlight-current-player").textContent = `${player}`;
+  easyBotMove();
 });
 
 bots.forEach((bot) => {
@@ -589,32 +599,31 @@ choosePlayers.forEach((choosePlayer) => {
 });
 
 function easyBotMove() {
-  if (!isPlayerTurn) {
-    if (checkWin()) {
-      return;
-    }
-    let emptyCells = [];
+  if (checkWin()) {
+    return;
+  }
+  let emptyCells = [];
 
-    for (let i = 0; i < gridSize; i++) {
-      for (let j = 0; j < gridSize; j++) {
-        if (board[i][j] === "") {
-          emptyCells.push([i, j]);
-        }
+  for (let i = 0; i < gridSize; i++) {
+    for (let j = 0; j < gridSize; j++) {
+      if (board[i][j] === "") {
+        emptyCells.push([i, j]);
       }
     }
+  }
 
-    if (emptyCells.length > 0) {
-      let randomIndex = Math.floor(Math.random() * emptyCells.length);
-      let [row, col] = emptyCells[randomIndex];
+  if (emptyCells.length > 0) {
+    let randomIndex = Math.floor(Math.random() * emptyCells.length);
+    let [row, col] = emptyCells[randomIndex];
 
-      handleCellClick({
+    handleCellClick(
+      {
         target: document.querySelector(
           `.cell[data-positionX="${row}"][data-positionY="${col}"]`
         ),
-      });
-
-      isPlayerTurn = true;
-    }
+      },
+      player === "X" ? "O" : "X"
+    );
   }
 }
 
