@@ -278,6 +278,14 @@ function handleCellClick(event, activePlayer) {
     board[positionX][positionY] = activePlayer;
 
     if (checkWin()) {
+      if (isEasyBotModeSelected() || isHardBotModeSelected()) {
+        modeElements.forEach((modeElement) => {
+          modeElement.style.visibility = "visible";
+        });
+        document.querySelectorAll(".change-game-mode").forEach((element) => {
+          element.style.visibility = "visible";
+        });
+      }
       statistics[currentPlayer] += 1;
       winSound.currentTime = 0;
       winSound.play();
@@ -297,6 +305,14 @@ function handleCellClick(event, activePlayer) {
       }
       updateStatistics();
     } else if (checkDraw()) {
+      if (isEasyBotModeSelected() || isHardBotModeSelected()) {
+        modeElements.forEach((modeElement) => {
+          modeElement.style.visibility = "visible";
+        });
+        document.querySelectorAll(".change-game-mode").forEach((element) => {
+          element.style.visibility = "visible";
+        });
+      }
       statistics.D += 1;
       drawSound.currentTime = 0;
       drawSound.play();
