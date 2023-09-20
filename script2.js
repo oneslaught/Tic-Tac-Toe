@@ -190,6 +190,10 @@ function playAgain() {
     currentPlayer = "X";
     easyBotMove();
   }
+  if ((isEasyBotModeSelected() || isHardBotModeSelected()) && player === "X") {
+    currentPlayer = "X";
+  }
+    console.log(`Current player: ${currentPlayer}, player: ${player}`);
 }
 
 playAgainButton.addEventListener("click", () => {
@@ -222,16 +226,22 @@ function isPlayerTurn() {
 function handlePlayerCellClick(event) {
   if (!checkWin() && !checkDraw()) {
     if (!isEasyBotModeSelected()) {
-      handleCellClick(event, player);
-      player = currentPlayer;
+      let clickedCell = event.target;
+      if (clickedCell.classList.contains("cell") && !clickedCell.textContent) {
+        handleCellClick(event, player);
+        player = currentPlayer;
+      }
     }
     if (isPlayerTurn() && isEasyBotModeSelected()) {
-      handleCellClick(event, player);
-      if (isEasyBotModeSelected() && !timeOutId) {
-        timeOutId = setTimeout(() => {
-          easyBotMove();
-          timeOutId = null;
-        }, 1000);
+      let clickedCell = event.target;
+      if (clickedCell.classList.contains("cell") && !clickedCell.textContent) {
+        handleCellClick(event, player);
+        if (!checkWin() && !checkDraw()) {
+          timeOutId = setTimeout(() => {
+            easyBotMove();
+            timeOutId = null;
+          }, 1000);
+        }
       }
     }
   }
@@ -241,7 +251,7 @@ function setCurrentPlayerDisplay() {
   if (currentPlayer === "O") {
     document.querySelector(".bg").style.left = "85px";
     document.querySelector(".bg").style.backgroundColor = "#fe019a";
-    document.getElementById("highlight-current-player").classList.toggle("o");
+    document.getElementById("highlight-current-player").classList.add("o");
     document.getElementById("highlight-current-player").classList.remove("x");
   } else {
     document.querySelector(".bg").style.left = "";
@@ -256,6 +266,7 @@ function setCurrentPlayerDisplay() {
 }
 
 function handleCellClick(event, activePlayer) {
+  console.log(`Current player: ${currentPlayer}, player: ${player}`);
   let clickedCell = event.target;
   if (clickedCell.classList.contains("cell") && !clickedCell.innerHTML) {
     let currentPlayerColor = activePlayer === "X" ? "#019afe" : "#fe019a";
@@ -278,14 +289,6 @@ function handleCellClick(event, activePlayer) {
     board[positionX][positionY] = activePlayer;
 
     if (checkWin()) {
-      if (isEasyBotModeSelected() || isHardBotModeSelected()) {
-        modeElements.forEach((modeElement) => {
-          modeElement.style.visibility = "visible";
-        });
-        document.querySelectorAll(".change-game-mode").forEach((element) => {
-          element.style.visibility = "visible";
-        });
-      }
       statistics[currentPlayer] += 1;
       winSound.currentTime = 0;
       winSound.play();
@@ -305,14 +308,6 @@ function handleCellClick(event, activePlayer) {
       }
       updateStatistics();
     } else if (checkDraw()) {
-      if (isEasyBotModeSelected() || isHardBotModeSelected()) {
-        modeElements.forEach((modeElement) => {
-          modeElement.style.visibility = "visible";
-        });
-        document.querySelectorAll(".change-game-mode").forEach((element) => {
-          element.style.visibility = "visible";
-        });
-      }
       statistics.D += 1;
       drawSound.currentTime = 0;
       drawSound.play();
@@ -338,7 +333,9 @@ function handleCellClick(event, activePlayer) {
 
       setCurrentPlayerDisplay();
     }
+    return true;
   }
+  return false;
 }
 
 function checkWin() {
@@ -587,6 +584,8 @@ function closePopup() {
 
 xPopup.addEventListener("click", () => {
   player = "X";
+  currentPlayer = player;
+  console.log(`Current player: ${currentPlayer}, player: ${player}`);
   document.querySelector(".bg").style.left = "";
   document.querySelector(".bg").style.backgroundColor = "#019afe";
   document.getElementById("highlight-current-player").classList.add("x");
@@ -629,6 +628,7 @@ function easyBotMove() {
   }
 
   if (emptyCells.length > 0) {
+    currentPlayer = player === "X" ? "O" : "X";
     let randomIndex = Math.floor(Math.random() * emptyCells.length);
     let [row, col] = emptyCells[randomIndex];
 
@@ -641,6 +641,16 @@ function easyBotMove() {
       player === "X" ? "O" : "X"
     );
   }
+}
+
+function isLocalModeSelected() {
+  let localModeButton = document.querySelector(".change-game-mode.local");
+  return localModeButton.classList.contains("clicked");
+}
+
+function isOnlineModeSelected() {
+  let onlineModeButton = document.querySelector(".change-game-mode.online");
+  return onlineModeButton.classList.contains("clicked");
 }
 
 function isEasyBotModeSelected() {
