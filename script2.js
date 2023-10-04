@@ -636,6 +636,7 @@ oPopup.addEventListener("click", () => {
   document.getElementById("highlight-current-player").textContent = `${player}`;
   shouldRunEasyBotMove = true;
   easyBotMove();
+  console.log("Бот сделал ход")
 });
 
 bots.forEach((bot) => {
@@ -646,33 +647,88 @@ choosePlayers.forEach((choosePlayer) => {
   choosePlayer.addEventListener("click", closePopup);
 });
 
-function easyBotMove() {
-  if (checkWin()) {
-    return;
-  }
-  let emptyCells = [];
+function bestMove() {
+  let move;
 
   for (let i = 0; i < gridSize; i++) {
     for (let j = 0; j < gridSize; j++) {
       if (board[i][j] === "") {
-        emptyCells.push([i, j]);
+        board[i][j] = currentPlayer;
+        if (checkWin()) {
+          move = { row: i, col: j };
+          board[i][j] = "";
+          console.log("Found winning move at:", move);
+          return move;
+        }
+        board[i][j] = "";
       }
     }
   }
 
-  if (emptyCells.length > 0) {
-    currentPlayer = player === "X" ? "O" : "X";
-    let randomIndex = Math.floor(Math.random() * emptyCells.length);
-    let [row, col] = emptyCells[randomIndex];
+  for (let i = 0; i < gridSize; i++) {
+    for (let j = 0; j < gridSize; j++) {
+      if (board[i][j] === "") {
+        board[i][j] = player;
+        if (checkWin()) {
+          move = { row: i, col: j };
+          board[i][j] = "";
+          console.log("Found blocking move at:", move);
+          return move;
+        }
+        board[i][j] = "";
+      }
+    }
+  }
 
-    handleCellClick(
-      {
-        target: document.querySelector(
-          `.cell[data-positionX="${row}"][data-positionY="${col}"]`
-        ),
-      },
-      player === "X" ? "O" : "X"
-    );
+  if (board[Math.floor(gridSize / 2)][Math.floor(gridSize / 2)] === player) {
+    let corners = [{ row: 0, col: 0 }, { row: 0, col: gridSize - 1 }, { row: gridSize - 1, col: 0 }, { row: gridSize - 1, col: gridSize - 1 }];
+    move = corners[Math.floor(Math.random() * corners.length)];
+    return move;
+  }
+
+  if (board[Math.floor(gridSize / 2)][Math.floor(gridSize / 2)] === "") {
+    move = { row: Math.floor(gridSize / 2), col: Math.floor(gridSize / 2) };
+    return move;
+  }
+
+  let availableMoves = [];
+  for (let i = 0; i < gridSize; i++) {
+    for (let j = 0; j < gridSize; j++) {
+      if (board[i][j] === "") {
+        availableMoves.push({ row: i, col: j });
+      }
+    }
+  }
+
+  move = availableMoves[Math.floor(Math.random() * availableMoves.length)];
+  console.log("No specific moves found, choosing random move.");
+  return move;
+}
+
+function easyBotMove() {
+  if (checkWin()) {
+    return;
+  }
+
+  currentPlayer = player === "X" ? "O" : "X";
+  let move = bestMove();
+
+  console.log(`Bot moved to cell: [${move.row}, ${move.col}]`);
+
+  let targetCell = document.querySelector(
+    `.cell[data-positionX="${move.row}"][data-positionY="${move.col}"]`
+  );
+
+  if (targetCell && !targetCell.textContent) {
+    handleCellClick({ target: targetCell }, currentPlayer);
+  } else {
+    let availableCells = document.querySelectorAll('.cell:not(.winning-cell):empty');
+    if (availableCells.length > 0) {
+      let randomCell = availableCells[Math.floor(Math.random() * availableCells.length)];
+      handleCellClick({ target: randomCell }, currentPlayer);
+    } else {
+      console.log("No empty cells available. Bot can't make a move.");
+    }
   }
 }
 
