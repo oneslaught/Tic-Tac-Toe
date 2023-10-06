@@ -95,7 +95,7 @@ modeElements.forEach((modeElement) => {
 
 let cell = document.getElementsByClassName("cell");
 let playAgainButton = document.getElementById("play-again");
-let exitButton = document.getElementById("exit")
+let exitButton = document.getElementById("exit");
 
 document.addEventListener("DOMContentLoaded", function () {
   let cells = document.querySelectorAll(".cell");
@@ -160,7 +160,10 @@ function playAgain() {
     exitButton.classList.remove("show");
     exitButton.style.display = "none";
 
-    if (shouldRunEasyBotMove && (isEasyBotModeSelected() || isHardBotModeSelected())) {
+    if (
+      shouldRunEasyBotMove &&
+      (isEasyBotModeSelected() || isHardBotModeSelected())
+    ) {
       if (currentPlayer === "X") {
         document.querySelector(".bg").style.left = "";
         document.querySelector(".bg").style.backgroundColor = "#019afe";
@@ -193,14 +196,18 @@ function playAgain() {
     currentPlayer = player;
     setCurrentPlayerDisplay();
   }
-  if (shouldRunEasyBotMove && (isEasyBotModeSelected() || isHardBotModeSelected()) && player === "O") {
+  if (
+    shouldRunEasyBotMove &&
+    (isEasyBotModeSelected() || isHardBotModeSelected()) &&
+    player === "O"
+  ) {
     currentPlayer = "X";
     easyBotMove();
   }
   if ((isEasyBotModeSelected() || isHardBotModeSelected()) && player === "X") {
     currentPlayer = "X";
   }
-    console.log(`Current player: ${currentPlayer}, player: ${player}`);
+  console.log(`Current player: ${currentPlayer}, player: ${player}`);
 }
 
 function exitBotMode() {
@@ -210,8 +217,12 @@ function exitBotMode() {
   exitButton.classList.remove("show");
   exitButton.style.display = "none";
   document.querySelector(".change-game-mode.local").classList.add("clicked");
-  document.querySelector(".change-game-mode.easy-bot").classList.remove("clicked");
-  document.querySelector(".change-game-mode.hard-bot").classList.remove("clicked");
+  document
+    .querySelector(".change-game-mode.easy-bot")
+    .classList.remove("clicked");
+  document
+    .querySelector(".change-game-mode.hard-bot")
+    .classList.remove("clicked");
   document.querySelector(".change-mode.threeByThree").classList.add("clicked");
   document.querySelector(".change-mode.fiveByFive").classList.remove("clicked");
 }
@@ -319,7 +330,10 @@ function handleCellClick(event, activePlayer) {
 
       playAgainButton.classList.add("show");
       playAgainButton.style.visibility = "visible";
-      if ((isEasyBotModeSelected() || isHardBotModeSelected()) && player === "O") {
+      if (
+        (isEasyBotModeSelected() || isHardBotModeSelected()) &&
+        player === "O"
+      ) {
         exitButton.classList.add("show");
         exitButton.style.display = "block";
       }
@@ -345,7 +359,10 @@ function handleCellClick(event, activePlayer) {
       </div>`;
       playAgainButton.classList.add("show");
       playAgainButton.style.visibility = "visible";
-      if ((isEasyBotModeSelected() || isHardBotModeSelected()) && player === "O") {
+      if (
+        (isEasyBotModeSelected() || isHardBotModeSelected()) &&
+        player === "O"
+      ) {
         exitButton.classList.add("show");
         exitButton.style.display = "block";
       }
@@ -521,14 +538,18 @@ function checkDraw() {
 
 function highlightWinningCells(cells) {
   let currentPlayerColor = currentPlayer === "X" ? "#019afe" : "#fe019a";
-  for (let i = 0; i < cells.length; i++) {
-    const [row, col] = cells[i];
-    const cell = document.querySelector(
-      `.cell[data-positionX="${row}"][data-positionY="${col}"]`
-    );
-    cell.classList.add("winning-cell");
-    cell.style.color = "#fff";
-    cell.style.backgroundColor = currentPlayerColor;
+  let isEqual = cells.every(([row, col]) => board[row][col] === currentPlayer);
+
+  if (isEqual) {
+    for (let i = 0; i < cells.length; i++) {
+      const [row, col] = cells[i];
+      const cell = document.querySelector(
+        `.cell[data-positionX="${row}"][data-positionY="${col}"]`
+      );
+      cell.classList.add("winning-cell");
+      cell.style.color = "#fff";
+      cell.style.backgroundColor = currentPlayerColor;
+    }
   }
 }
 
@@ -636,7 +657,7 @@ oPopup.addEventListener("click", () => {
   document.getElementById("highlight-current-player").textContent = `${player}`;
   shouldRunEasyBotMove = true;
   easyBotMove();
-  console.log("Бот сделал ход")
+  console.log("Бот сделал ход");
 });
 
 bots.forEach((bot) => {
@@ -681,7 +702,12 @@ function bestMove() {
   }
 
   if (board[Math.floor(gridSize / 2)][Math.floor(gridSize / 2)] === player) {
-    let corners = [{ row: 0, col: 0 }, { row: 0, col: gridSize - 1 }, { row: gridSize - 1, col: 0 }, { row: gridSize - 1, col: gridSize - 1 }];
+    let corners = [
+      { row: 0, col: 0 },
+      { row: 0, col: gridSize - 1 },
+      { row: gridSize - 1, col: 0 },
+      { row: gridSize - 1, col: gridSize - 1 },
+    ];
     move = corners[Math.floor(Math.random() * corners.length)];
     return move;
   }
@@ -689,6 +715,16 @@ function bestMove() {
   if (board[Math.floor(gridSize / 2)][Math.floor(gridSize / 2)] === "") {
     move = { row: Math.floor(gridSize / 2), col: Math.floor(gridSize / 2) };
     return move;
+  }
+
+  if (board[0][1] === player && board[1][0] === player) {
+    return { row: 0, col: 0 };
+  } else if (board[0][1] === player && board[1][2] === player) {
+    return { row: 0, col: 2 };
+  } else if (board[2][1] === player && board[1][0] === player) {
+    return { row: 2, col: 0 };
+  } else if (board[2][1] === player && board[1][2] === player) {
+    return { row: 2, col: 2 };
   }
 
   let availableMoves = [];
@@ -722,9 +758,12 @@ function easyBotMove() {
   if (targetCell && !targetCell.textContent) {
     handleCellClick({ target: targetCell }, currentPlayer);
   } else {
-    let availableCells = document.querySelectorAll('.cell:not(.winning-cell):empty');
+    let availableCells = document.querySelectorAll(
+      ".cell:not(.winning-cell):empty"
+    );
     if (availableCells.length > 0) {
-      let randomCell = availableCells[Math.floor(Math.random() * availableCells.length)];
+      let randomCell =
+        availableCells[Math.floor(Math.random() * availableCells.length)];
       handleCellClick({ target: randomCell }, currentPlayer);
     } else {
       console.log("No empty cells available. Bot can't make a move.");
