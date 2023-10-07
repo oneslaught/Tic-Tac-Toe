@@ -701,18 +701,40 @@ function bestMove() {
     }
   }
 
-  if (board[Math.floor(gridSize / 2)][Math.floor(gridSize / 2)] === player) {
-    let corners = [
-      { row: 0, col: 0 },
-      { row: 0, col: gridSize - 1 },
-      { row: gridSize - 1, col: 0 },
-      { row: gridSize - 1, col: gridSize - 1 },
-    ];
+  let centerOccupied =
+    board[Math.floor(gridSize / 2)][Math.floor(gridSize / 2)] === player;
+  let centerEmpty =
+    board[Math.floor(gridSize / 2)][Math.floor(gridSize / 2)] === "";
+  let cornerOccupied =
+    board[0][0] === player ||
+    board[0][gridSize - 1] === player ||
+    board[gridSize - 1][0] === player ||
+    board[gridSize - 1][gridSize - 1] === player;
+
+  let corners = [
+    { row: 0, col: 0 },
+    { row: 0, col: gridSize - 1 },
+    { row: gridSize - 1, col: 0 },
+    { row: gridSize - 1, col: gridSize - 1 },
+  ];
+
+  if (centerOccupied && cornerOccupied) {
+    let availableCorners = corners.filter(
+      (corner) => board[corner.row][corner.col] === ""
+    );
+    if (availableCorners.length > 0) {
+      move =
+        availableCorners[Math.floor(Math.random() * availableCorners.length)];
+      return move;
+    }
+  }
+
+  if (centerOccupied) {
     move = corners[Math.floor(Math.random() * corners.length)];
     return move;
   }
 
-  if (board[Math.floor(gridSize / 2)][Math.floor(gridSize / 2)] === "") {
+  if (centerEmpty) {
     move = { row: Math.floor(gridSize / 2), col: Math.floor(gridSize / 2) };
     return move;
   }
