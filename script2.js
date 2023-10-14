@@ -37,7 +37,7 @@ function createInitialGrid() {
 
   areaElement.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
 
-  if ((isHardBotModeSelected() || isEasyBotModeSelected()) && player === "O") {
+  if ((isEasyBotModeSelected() || isHardBotModeSelected()) && player === "O") {
     hardBotMove();
   }
 }
@@ -86,42 +86,6 @@ function handleModeClick(event) {
     createInitialGrid();
   }
 }
-
-
-function isLocalModeSelected() {
-  let localModeButton = document.querySelector(".change-game-mode.local");
-  return localModeButton.classList.contains("clicked");
-}
-
-function isOnlineModeSelected() {
-  let onlineModeButton = document.querySelector(".change-game-mode.online");
-  return onlineModeButton.classList.contains("clicked");
-}
-
-let easyBotButton = document.querySelector(".change-game-mode.easy-bot");
-
-function isEasyBotModeSelected() {
-  return easyBotButton.classList.contains("clicked");
-}
-
-easyBotButton.addEventListener("click", function() {
-  if (isEasyBotModeSelected()) {
-    // easyBotMove();
-  }
-});
-
-let hardBotButton = document.querySelector(".change-game-mode.hard-bot");
-
-function isHardBotModeSelected() {
-  return hardBotButton.classList.contains("clicked");
-}
-
-hardBotButton.addEventListener("click", function() {
-  if (isHardBotModeSelected()) {
-    hardBotMove();
-  }
-});
-
 
 let modeElements = document.querySelectorAll(".change-mode");
 
@@ -227,7 +191,7 @@ function playAgain() {
       }
     }
   }
-  if (!isEasyBotModeSelected()) {
+  if (!isEasyBotModeSelected() && !isHardBotModeSelected()) {
     player = player === "X" ? "O" : "X";
     currentPlayer = player;
     setCurrentPlayerDisplay();
@@ -295,23 +259,25 @@ function isPlayerTurn() {
 }
 
 function handlePlayerCellClick(event) {
-  if (!checkWin() && !checkDraw()) {  
-    if (!isEasyBotModeSelected() || !isHardBotModeSelected()) {
+  if (!checkWin() && !checkDraw()) {
+    if (!isEasyBotModeSelected() && !isHardBotModeSelected) {
       let clickedCell = event.target;
       if (clickedCell.classList.contains("cell") && !clickedCell.textContent) {
         handleCellClick(event, player);
         player = currentPlayer;
       }
     }
-    if (isPlayerTurn() && (isHardBotModeSelected() || isEasyBotModeSelected())) {
-      let clickedCell = event.target;
-      if (clickedCell.classList.contains("cell") && !clickedCell.textContent) {
-        handleCellClick(event, player);
-        if (!checkWin() && !checkDraw()) {
-          timeOutId = setTimeout(() => {
-            hardBotMove();
-            timeOutId = null;
-          }, 1000);
+    if (isPlayerTurn()) {
+      if (isEasyBotModeSelected() || isHardBotModeSelected()) {
+        let clickedCell = event.target;
+        if (clickedCell.classList.contains("cell") && !clickedCell.textContent) {
+          handleCellClick(event, player);
+          if (!checkWin() && !checkDraw()) {
+            timeOutId = setTimeout(() => {
+              hardBotMove();
+              timeOutId = null;
+            }, 1000);
+          }
         }
       }
     }
@@ -795,6 +761,7 @@ function bestMove() {
   }
 
   move = availableMoves[Math.floor(Math.random() * availableMoves.length)];
+  console.log("No specific moves found, choosing random move.");
   return move;
 }
 
@@ -822,6 +789,28 @@ function hardBotMove() {
       let randomCell =
         availableCells[Math.floor(Math.random() * availableCells.length)];
       handleCellClick({ target: randomCell }, currentPlayer);
+    } else {
+      console.log("No empty cells available. Bot can't make a move.");
     }
   }
+}
+
+function isLocalModeSelected() {
+  let localModeButton = document.querySelector(".change-game-mode.local");
+  return localModeButton.classList.contains("clicked");
+}
+
+function isOnlineModeSelected() {
+  let onlineModeButton = document.querySelector(".change-game-mode.online");
+  return onlineModeButton.classList.contains("clicked");
+}
+
+function isEasyBotModeSelected() {
+  let easyBotButton = document.querySelector(".change-game-mode.easy-bot");
+  return easyBotButton.classList.contains("clicked");
+}
+
+function isHardBotModeSelected() {
+  let hardBotButton = document.querySelector(".change-game-mode.hard-bot");
+  return hardBotButton.classList.contains("clicked");
 }
