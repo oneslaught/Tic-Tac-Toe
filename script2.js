@@ -37,8 +37,8 @@ function createInitialGrid() {
 
   areaElement.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
 
-  if ((isEasyBotModeSelected() || isHardBotModeSelected()) && player === "O") {
-    easyBotMove();
+  if ((isHardBotModeSelected() || isEasyBotModeSelected()) && player === "O") {
+    hardBotMove();
   }
 }
 
@@ -87,6 +87,42 @@ function handleModeClick(event) {
   }
 }
 
+
+function isLocalModeSelected() {
+  let localModeButton = document.querySelector(".change-game-mode.local");
+  return localModeButton.classList.contains("clicked");
+}
+
+function isOnlineModeSelected() {
+  let onlineModeButton = document.querySelector(".change-game-mode.online");
+  return onlineModeButton.classList.contains("clicked");
+}
+
+let easyBotButton = document.querySelector(".change-game-mode.easy-bot");
+
+function isEasyBotModeSelected() {
+  return easyBotButton.classList.contains("clicked");
+}
+
+easyBotButton.addEventListener("click", function() {
+  if (isEasyBotModeSelected()) {
+    // easyBotMove();
+  }
+});
+
+let hardBotButton = document.querySelector(".change-game-mode.hard-bot");
+
+function isHardBotModeSelected() {
+  return hardBotButton.classList.contains("clicked");
+}
+
+hardBotButton.addEventListener("click", function() {
+  if (isHardBotModeSelected()) {
+    hardBotMove();
+  }
+});
+
+
 let modeElements = document.querySelectorAll(".change-mode");
 
 modeElements.forEach((modeElement) => {
@@ -129,7 +165,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-let shouldRunEasyBotMove = true;
+let shouldRunHardBotMove = true;
 
 function playAgain() {
   clearTimeout(timeOutId);
@@ -161,7 +197,7 @@ function playAgain() {
     exitButton.style.display = "none";
 
     if (
-      shouldRunEasyBotMove &&
+      shouldRunHardBotMove &&
       (isEasyBotModeSelected() || isHardBotModeSelected())
     ) {
       if (currentPlayer === "X") {
@@ -197,12 +233,12 @@ function playAgain() {
     setCurrentPlayerDisplay();
   }
   if (
-    shouldRunEasyBotMove &&
+    shouldRunHardBotMove &&
     (isEasyBotModeSelected() || isHardBotModeSelected()) &&
     player === "O"
   ) {
     currentPlayer = "X";
-    easyBotMove();
+    hardBotMove();
   }
   if ((isEasyBotModeSelected() || isHardBotModeSelected()) && player === "X") {
     currentPlayer = "X";
@@ -211,7 +247,7 @@ function playAgain() {
 }
 
 function exitBotMode() {
-  shouldRunEasyBotMove = false;
+  shouldRunHardBotMove = false;
   playAgain();
   resetStatistics();
   exitButton.classList.remove("show");
@@ -259,21 +295,21 @@ function isPlayerTurn() {
 }
 
 function handlePlayerCellClick(event) {
-  if (!checkWin() && !checkDraw()) {
-    if (!isEasyBotModeSelected()) {
+  if (!checkWin() && !checkDraw()) {  
+    if (!isEasyBotModeSelected() || !isHardBotModeSelected()) {
       let clickedCell = event.target;
       if (clickedCell.classList.contains("cell") && !clickedCell.textContent) {
         handleCellClick(event, player);
         player = currentPlayer;
       }
     }
-    if (isPlayerTurn() && isEasyBotModeSelected()) {
+    if (isPlayerTurn() && (isHardBotModeSelected() || isEasyBotModeSelected())) {
       let clickedCell = event.target;
       if (clickedCell.classList.contains("cell") && !clickedCell.textContent) {
         handleCellClick(event, player);
         if (!checkWin() && !checkDraw()) {
           timeOutId = setTimeout(() => {
-            easyBotMove();
+            hardBotMove();
             timeOutId = null;
           }, 1000);
         }
@@ -655,8 +691,8 @@ oPopup.addEventListener("click", () => {
   document.getElementById("highlight-current-player").classList.remove("x");
 
   document.getElementById("highlight-current-player").textContent = `${player}`;
-  shouldRunEasyBotMove = true;
-  easyBotMove();
+  shouldRunHardBotMove = true;
+  hardBotMove();
   console.log("Бот сделал ход");
 });
 
@@ -759,11 +795,10 @@ function bestMove() {
   }
 
   move = availableMoves[Math.floor(Math.random() * availableMoves.length)];
-  console.log("No specific moves found, choosing random move.");
   return move;
 }
 
-function easyBotMove() {
+function hardBotMove() {
   if (checkWin()) {
     return;
   }
@@ -787,28 +822,6 @@ function easyBotMove() {
       let randomCell =
         availableCells[Math.floor(Math.random() * availableCells.length)];
       handleCellClick({ target: randomCell }, currentPlayer);
-    } else {
-      console.log("No empty cells available. Bot can't make a move.");
     }
   }
-}
-
-function isLocalModeSelected() {
-  let localModeButton = document.querySelector(".change-game-mode.local");
-  return localModeButton.classList.contains("clicked");
-}
-
-function isOnlineModeSelected() {
-  let onlineModeButton = document.querySelector(".change-game-mode.online");
-  return onlineModeButton.classList.contains("clicked");
-}
-
-function isEasyBotModeSelected() {
-  let easyBotButton = document.querySelector(".change-game-mode.easy-bot");
-  return easyBotButton.classList.contains("clicked");
-}
-
-function isHardBotModeSelected() {
-  let hardBotButton = document.querySelector(".change-game-mode.hard-bot");
-  return hardBotButton.classList.contains("clicked");
 }
