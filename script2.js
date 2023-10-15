@@ -260,11 +260,13 @@ function isPlayerTurn() {
 
 function handlePlayerCellClick(event) {
   if (!checkWin() && !checkDraw()) {
-    if (!isEasyBotModeSelected() && !isHardBotModeSelected) {
-      let clickedCell = event.target;
-      if (clickedCell.classList.contains("cell") && !clickedCell.textContent) {
-        handleCellClick(event, player);
-        player = currentPlayer;
+    if (!isEasyBotModeSelected()) {
+      if (!isHardBotModeSelected()) {
+        let clickedCell = event.target;
+        if (clickedCell.classList.contains("cell") && !clickedCell.textContent) {
+          handleCellClick(event, player);
+          player = currentPlayer;
+        }
       }
     }
     if (isPlayerTurn()) {
@@ -274,7 +276,7 @@ function handlePlayerCellClick(event) {
           handleCellClick(event, player);
           if (!checkWin() && !checkDraw()) {
             timeOutId = setTimeout(() => {
-              hardBotMove();
+              easyBotMoveLogic();
               timeOutId = null;
             }, 1000);
           }
@@ -670,7 +672,56 @@ choosePlayers.forEach((choosePlayer) => {
   choosePlayer.addEventListener("click", closePopup);
 });
 
-function bestMove() {
+function easyBotMoveLogic() {
+  if (checkWin()) {
+    return;
+  }
+
+  currentPlayer = player === "X" ? "O" : "X";
+
+  let winningMoves = [];
+  let blockingMoves = [];
+  let availableMoves = [];
+
+  for (let i = 0; i < gridSize; i++) {
+    for (let j = 0; j < gridSize; j++) {
+      if (board[i][j] === "") {
+        board[i][j] = currentPlayer;
+        if (checkWin()) {
+          winningMoves.push({ row: i, col: j });
+        }
+        board[i][j] = player;
+        if (checkWin()) {
+          blockingMoves.push({ row: i, col: j });
+        }
+        board[i][j] = "";
+        availableMoves.push({ row: i, col: j });
+      }
+    }
+  }
+
+  let errorProbability = Math.random() <= 1;
+
+  let targetMove;
+  if (!errorProbability && (winningMoves.length > 0 || blockingMoves.length > 0)) {
+    targetMove = winningMoves.length > 0
+      ? winningMoves[Math.floor(Math.random() * winningMoves.length)]
+      : blockingMoves[Math.floor(Math.random() * blockingMoves.length)];
+  } else {
+    targetMove = availableMoves[Math.floor(Math.random() * availableMoves.length)];
+  }
+
+  let targetCell = document.querySelector(
+    `.cell[data-positionX="${targetMove.row}"][data-positionY="${targetMove.col}"]`
+  );
+
+  if (targetCell && !targetCell.textContent) {
+    handleCellClick({ target: targetCell }, currentPlayer);
+  }
+}
+
+
+function hardBotMoveLogic() {
   let move;
 
   for (let i = 0; i < gridSize; i++) {
@@ -771,7 +822,7 @@ function hardBotMove() {
   }
 
   currentPlayer = player === "X" ? "O" : "X";
-  let move = bestMove();
+  let move = hardBotMoveLogic();
 
   console.log(`Bot moved to cell: [${move.row}, ${move.col}]`);
 
@@ -789,8 +840,6 @@ function hardBotMove() {
       let randomCell =
         availableCells[Math.floor(Math.random() * availableCells.length)];
       handleCellClick({ target: randomCell }, currentPlayer);
-    } else {
-      console.log("No empty cells available. Bot can't make a move.");
     }
   }
 }
