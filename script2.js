@@ -207,7 +207,7 @@ function playAgain() {
   if ((isEasyBotModeSelected() || isHardBotModeSelected()) && player === "X") {
     currentPlayer = "X";
   }
-  console.log(`Current player: ${currentPlayer}, player: ${player}`);
+  // console.log(`Current player: ${currentPlayer}, player: ${player}`);
 }
 
 function exitBotMode() {
@@ -270,13 +270,24 @@ function handlePlayerCellClick(event) {
       }
     }
     if (isPlayerTurn()) {
-      if (isEasyBotModeSelected() || isHardBotModeSelected()) {
+      if (isEasyBotModeSelected()) {
         let clickedCell = event.target;
         if (clickedCell.classList.contains("cell") && !clickedCell.textContent) {
           handleCellClick(event, player);
           if (!checkWin() && !checkDraw()) {
             timeOutId = setTimeout(() => {
-              easyBotMoveLogic();
+              easyBotMove();
+              timeOutId = null;
+            }, 1000);
+          }
+        }
+      } else if (isHardBotModeSelected()) {
+        let clickedCell = event.target;
+        if (clickedCell.classList.contains("cell") && !clickedCell.textContent) {
+          handleCellClick(event, player);
+          if (!checkWin() && !checkDraw()) {
+            timeOutId = setTimeout(() => {
+              hardBotMove();
               timeOutId = null;
             }, 1000);
           }
@@ -305,7 +316,7 @@ function setCurrentPlayerDisplay() {
 }
 
 function handleCellClick(event, activePlayer) {
-  console.log(`Current player: ${currentPlayer}, player: ${player}`);
+  // console.log(`Current player: ${currentPlayer}, player: ${player}`);
   let clickedCell = event.target;
   if (clickedCell.classList.contains("cell") && !clickedCell.innerHTML) {
     let currentPlayerColor = activePlayer === "X" ? "#019afe" : "#fe019a";
@@ -399,11 +410,13 @@ function checkWin() {
         board[i][0] === board[i][1] &&
         board[i][1] === board[i][2]
       ) {
-        highlightWinningCells([
-          [i, 0],
-          [i, 1],
-          [i, 2],
-        ]);
+        setTimeout(() => {
+          highlightWinningCells([
+            [i, 0],
+            [i, 1],
+            [i, 2],
+          ]);
+        }, 1);
         return true;
       }
     }
@@ -414,11 +427,13 @@ function checkWin() {
         board[0][j] === board[1][j] &&
         board[1][j] === board[2][j]
       ) {
-        highlightWinningCells([
-          [0, j],
-          [1, j],
-          [2, j],
-        ]);
+        setTimeout(() => {
+          highlightWinningCells([
+            [0, j],
+            [1, j],
+            [2, j],
+          ]);
+        }, 1);
         return true;
       }
     }
@@ -428,11 +443,13 @@ function checkWin() {
       board[0][0] === board[1][1] &&
       board[1][1] === board[2][2]
     ) {
-      highlightWinningCells([
-        [0, 0],
-        [1, 1],
-        [2, 2],
-      ]);
+      setTimeout(() => {
+        highlightWinningCells([
+          [0, 0],
+          [1, 1],
+          [2, 2],
+        ]);  
+      }, 1);
       return true;
     }
 
@@ -441,11 +458,13 @@ function checkWin() {
       board[0][2] === board[1][1] &&
       board[1][1] === board[2][0]
     ) {
-      highlightWinningCells([
-        [0, 2],
-        [1, 1],
-        [2, 0],
-      ]);
+      setTimeout(() => {
+        highlightWinningCells([
+          [0, 2],
+          [1, 1],
+          [2, 0],
+        ]);  
+      }, 1);
       return true;
     }
 
@@ -459,12 +478,14 @@ function checkWin() {
           board[i][j + 1] === board[i][j + 2] &&
           board[i][j + 2] === board[i][j + 3]
         ) {
-          highlightWinningCells([
-            [i, j],
-            [i, j + 1],
-            [i, j + 2],
-            [i, j + 3],
-          ]);
+          setTimeout(() => {
+            highlightWinningCells([
+              [i, j],
+              [i, j + 1],
+              [i, j + 2],
+              [i, j + 3],
+            ]);
+          }, 1);
           return true;
         }
       }
@@ -478,12 +499,14 @@ function checkWin() {
           board[i + 1][j] === board[i + 2][j] &&
           board[i + 2][j] === board[i + 3][j]
         ) {
-          highlightWinningCells([
-            [i, j],
-            [i + 1, j],
-            [i + 2, j],
-            [i + 3, j],
-          ]);
+          setTimeout(() => {
+            highlightWinningCells([
+              [i, j],
+              [i + 1, j],
+              [i + 2, j],
+              [i + 3, j],
+            ]);
+          }, 1);
           return true;
         }
       }
@@ -497,12 +520,14 @@ function checkWin() {
           board[i + 1][j + 1] === board[i + 2][j + 2] &&
           board[i + 2][j + 2] === board[i + 3][j + 3]
         ) {
-          highlightWinningCells([
-            [i, j],
-            [i + 1, j + 1],
-            [i + 2, j + 2],
-            [i + 3, j + 3],
-          ]);
+          setTimeout(() => {
+            highlightWinningCells([
+              [i, j],
+              [i + 1, j + 1],
+              [i + 2, j + 2],
+              [i + 3, j + 3],
+            ]);
+          }, 1);
           return true;
         }
       }
@@ -516,12 +541,14 @@ function checkWin() {
           board[i + 1][j - 1] === board[i + 2][j - 2] &&
           board[i + 2][j - 2] === board[i + 3][j - 3]
         ) {
-          highlightWinningCells([
-            [i, j],
-            [i + 1, j - 1],
-            [i + 2, j - 2],
-            [i + 3, j - 3],
-          ]);
+          setTimeout(() => {
+            highlightWinningCells([
+              [i, j],
+              [i + 1, j - 1],
+              [i + 2, j - 2],
+              [i + 3, j - 3],
+            ]);
+          }, 1);
           return true;
         }
       }
@@ -642,7 +669,7 @@ function closePopup() {
 xPopup.addEventListener("click", () => {
   player = "X";
   currentPlayer = player;
-  console.log(`Current player: ${currentPlayer}, player: ${player}`);
+  // console.log(`Current player: ${currentPlayer}, player: ${player}`);
   document.querySelector(".bg").style.left = "";
   document.querySelector(".bg").style.backgroundColor = "#019afe";
   document.getElementById("highlight-current-player").classList.add("x");
@@ -661,7 +688,6 @@ oPopup.addEventListener("click", () => {
   document.getElementById("highlight-current-player").textContent = `${player}`;
   shouldRunHardBotMove = true;
   hardBotMove();
-  console.log("Бот сделал ход");
 });
 
 bots.forEach((bot) => {
@@ -672,7 +698,7 @@ choosePlayers.forEach((choosePlayer) => {
   choosePlayer.addEventListener("click", closePopup);
 });
 
-function easyBotMoveLogic() {
+function easyBotMove() {
   if (checkWin()) {
     return;
   }
@@ -700,15 +726,20 @@ function easyBotMoveLogic() {
     }
   }
 
-  let errorProbability = Math.random() <= 1;
+  let errorProbability = Math.random() <= 0.3;
 
   let targetMove;
-  if (!errorProbability && (winningMoves.length > 0 || blockingMoves.length > 0)) {
-    targetMove = winningMoves.length > 0
-      ? winningMoves[Math.floor(Math.random() * winningMoves.length)]
-      : blockingMoves[Math.floor(Math.random() * blockingMoves.length)];
+  if (
+    !errorProbability &&
+    (winningMoves.length > 0 || blockingMoves.length > 0)
+  ) {
+    targetMove =
+      winningMoves.length > 0
+        ? winningMoves[Math.floor(Math.random() * winningMoves.length)]
+        : blockingMoves[Math.floor(Math.random() * blockingMoves.length)];
   } else {
-    targetMove = availableMoves[Math.floor(Math.random() * availableMoves.length)];
+    targetMove =
+      availableMoves[Math.floor(Math.random() * availableMoves.length)];
   }
 
   let targetCell = document.querySelector(
@@ -731,7 +762,7 @@ function hardBotMoveLogic() {
         if (checkWin()) {
           move = { row: i, col: j };
           board[i][j] = "";
-          console.log("Found winning move at:", move);
+          // console.log("Found winning move at:", move);
           return move;
         }
         board[i][j] = "";
@@ -746,7 +777,7 @@ function hardBotMoveLogic() {
         if (checkWin()) {
           move = { row: i, col: j };
           board[i][j] = "";
-          console.log("Found blocking move at:", move);
+          // console.log("Found blocking move at:", move);
           return move;
         }
         board[i][j] = "";
@@ -812,7 +843,7 @@ function hardBotMoveLogic() {
   }
 
   move = availableMoves[Math.floor(Math.random() * availableMoves.length)];
-  console.log("No specific moves found, choosing random move.");
+  // console.log("No specific moves found, choosing random move.");
   return move;
 }
 
@@ -824,7 +855,7 @@ function hardBotMove() {
   currentPlayer = player === "X" ? "O" : "X";
   let move = hardBotMoveLogic();
 
-  console.log(`Bot moved to cell: [${move.row}, ${move.col}]`);
+  // console.log(`Bot moved to cell: [${move.row}, ${move.col}]`);
 
   let targetCell = document.querySelector(
     `.cell[data-positionX="${move.row}"][data-positionY="${move.col}"]`
