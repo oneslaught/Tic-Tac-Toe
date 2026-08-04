@@ -339,6 +339,7 @@ body {
   border: 3px solid #000;
   font-size: 1.6rem;
   font-weight: 700;
+  height: 40px;
 }
 
 .turn-container .turn-box:nth-child(even) {
@@ -347,7 +348,7 @@ body {
 
 .bg {
   position: relative;
-  top: -40px;
+  top: -43px;
   left: 0;
   width: 85px;
   height: 40px;
