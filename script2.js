@@ -880,11 +880,6 @@ function isLocalModeSelected() {
   return localModeButton.classList.contains("clicked");
 }
 
-function isOnlineModeSelected() {
-  let onlineModeButton = document.querySelector(".change-game-mode.online");
-  return onlineModeButton.classList.contains("clicked");
-}
-
 function isEasyBotModeSelected() {
   let easyBotButton = document.querySelector(".change-game-mode.easy-bot");
   return easyBotButton.classList.contains("clicked");
