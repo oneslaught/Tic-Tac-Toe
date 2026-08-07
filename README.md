@@ -5,7 +5,7 @@ Building Tic-Tac-Toe was my way of getting comfortable with core web development
 
 ## 📀 Video
 
-[Tic-Tac-Toe-demo.webm](https://github.com/user-attachments/assets/ec7167fa-045b-4f96-a6d2-472c3419ce4b)
+[Tic-Tac-Toe-demo.webm](https://github.com/user-attachments/assets/d6dc8dc8-50e6-4ff7-a1e2-1e8b79e5274a)
 
 ## 📦 Technologies used
 ### Frontend:
